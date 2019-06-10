@@ -6,7 +6,7 @@ local loadingScreen = {
     -- when flipping image, flipped angle becomes math.pi
     flippedAngle = 0,
     isRotatingCW = true,
-    timeToLoad = 4,
+    timeToLoad = 2.5,
     flipping = false,
     flipped = false,
     shifting = false,

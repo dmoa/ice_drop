@@ -1,8 +1,8 @@
 Platform = class(
-    function(self)
+    function(self, y)
         self.image = love.graphics.newImage("assets/imgs/platform.png")
         self.canvas = love.graphics.newCanvas()
-        self:GPosition()
+        self:GPosition(y)
     end
 )
 
@@ -31,9 +31,12 @@ function Platform:isPlayerOn()
     player.y - player.image:getHeight() / 2 * scale < self.y + self.image:getHeight() * scale)
 end
 
-function Platform:GPosition()
+function Platform:GPosition(y)
     self.x = love.math.random(0, WW - self.image:getWidth() * scale)
-    self.oldY = self.y
+    if y then
+        self.y = y
+        self.oldY = self.y
+    end
 end
 
 function Platform:moveToBottom()

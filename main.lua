@@ -48,6 +48,7 @@ end
 
 function love.update(dt)
     if isPlaying then
+        scrollSpeed = scrollSpeed + dt * 3
         player:update(dt)
         if not player.isDead then
             for k, platform in ipairs(platforms) do
@@ -76,12 +77,8 @@ function start()
     platforms = {}
     platformGap = 150
     for i = 1, 20 do
-        table.insert(platforms, Platform())
-        platforms[i].y = platformGap * i
-    end
-    for i = 1, 20 do
-        table.insert(platforms, Platform())
-        platforms[i + 20].y = platformGap * i
+        table.insert(platforms, Platform(platformGap * i))
+        table.insert(platforms, Platform(platformGap * i))
     end
 
     platforms[1].x = 75
@@ -100,10 +97,11 @@ function start()
 end
 
 function restart()
+    scrollSpeed = 125
     for _, platform in ipairs(platforms) do
         platform:GPosition()
     end
-    platforms[1].x = 75
+    platforms[5].x = 75
     player:restart()
     tryAgainPopup.reversing = true
     score.timer = 0

@@ -12,7 +12,8 @@ Player = class(
         self.xvMax = 200
         self.friction = 0.5
 
-        self.y = 100
+        self.y = 300
+        self.oldY = self.y
         self.yv = 0
 
         self.direction = "left"
@@ -65,6 +66,7 @@ function Player:update(dt)
     for k, platform in ipairs(platforms) do
         if platform.y < WH then
             if platform:isPlayerOn() then
+                print(platform.oldY)
                 if self.oldY + self.image:getHeight() * scale / 2 <= platform.oldY then
                     self.y = platform.y - self.image:getWidth() / 2 * scale
                     self.yv = 0
@@ -84,13 +86,16 @@ function Player:update(dt)
     end
     self.yv = self.yv + 600 * dt
 
-    if self.y > WH + 10 and not self.isDead then
+    if (self.y > WH or self.y + self.image:getHeight() < 0) and not self.isDead then
+        -- move player off screen | Also removes sound effect when on platform
+        self.x = -100
+        
         self.isDead = true
         sounds.death:play()
         score.updateHighscore()
     end
 
-    if snowman:hasHit() and not snowman.isHit then
+    if snowman:hasHit() and not snowman.isHit and not self.isDead then
         snowman:dwindle()
         bonusPopup.poppingOut = true
         score.timer = score.timer + 10
@@ -101,7 +106,7 @@ end
 function Player:restart()
     self.isDead = false
     self.x = 75
-    self.y = 50
+    self.y = 150
     self.xv = 0
     self.yv = 0
 end
