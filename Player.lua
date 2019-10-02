@@ -1,26 +1,27 @@
-Player = class(
-    function(self)
-        self.image = love.graphics.newImage("assets/imgs/ice.png")
-        self.reflectionImage = love.graphics.newImage("assets/imgs/iceReflection.png")
+local Player = {
 
-        self.angle = 0
-        self.canvas = love.graphics.newCanvas()
+    image = love.graphics.newImage("assets/imgs/ice.png"),
+    reflectionImage = love.graphics.newImage("assets/imgs/iceReflection.png"),
 
-        self.x = 75
-        self.xv = 0
-        self.xv_acceleration = 3000
-        self.xvMax = 200
-        self.friction = 0.5
+    angle = 0,
+    canvas = love.graphics.newCanvas(),
 
-        self.y = 300
-        self.oldY = self.y
-        self.yv = 0
+    x = 75,
+    xv = 0,
+    xv_acceleration = 3000,
+    xvMax = 200,
+    friction = 0.5,
 
-        self.direction = "left"
-        self.isDead = false
-        self.isFalling = false
-    end
-)
+    y = 300,
+    oldY = y,
+    yv = 0,
+
+    direction = "left",
+    isDead = false,
+    isFalling = false
+
+}
+
 
 function Player:draw()
     love.graphics.draw(self.canvas, 0, 0, 0, scale, scale)
@@ -28,6 +29,19 @@ end
 
 function Player:update(dt)
 
+    Player:updateRotation(dt)
+    Player:updateMovement(dt)
+
+    Player:updateWithPlatforms()
+    Player:updateWithSnowman()
+    
+    Player:updateIsDead()
+    
+    Player:updateCanvas()
+    
+end
+
+function Player:updateRotation(dt)
     if love.keyboard.isDown("d") then self.direction = "right" end
     if love.keyboard.isDown("a") then self.direction = "left" end
 
@@ -38,7 +52,10 @@ function Player:update(dt)
             self.angle = (self.angle - dt * 5) % (math.pi * 2) 
         end
     end
-    -- coords / scale so that enlarging the canvas doesn't displace the player
+end
+
+function Player:updateCanvas()
+    -- coords / scale so that enlarging the canvas doesn't displace the self
     love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
     love.graphics.draw(self.image, (round(self.x / scale) * scale) / scale, (round(self.y / scale) * scale) / scale, 
@@ -46,7 +63,9 @@ function Player:update(dt)
     love.graphics.draw(self.reflectionImage, (round(self.x / scale) * scale) / scale, (round(self.y / scale) * scale) / scale, 
     self.angle / 4, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
     love.graphics.setCanvas()
+end
 
+function Player:updateMovement(dt)
     if love.keyboard.isDown("a") then self.xv = self.xv - self.xv_acceleration * dt end
     if love.keyboard.isDown("d") then self.xv = self.xv + self.xv_acceleration * dt end
 
@@ -61,12 +80,14 @@ function Player:update(dt)
     self.oldY = self.y
     self.x = self.x + self.xv * dt
     self.y = self.y + self.yv * dt
+    self.yv = self.yv + 600 * dt
+end
 
+function Player:updateWithPlatforms()
     self.isFalling = true
     for k, platform in ipairs(platforms) do
         if platform.y < WH then
             if platform:isPlayerOn() then
-                print(platform.oldY)
                 if self.oldY + self.image:getHeight() * scale / 2 <= platform.oldY then
                     self.y = platform.y - self.image:getWidth() / 2 * scale
                     self.yv = 0
@@ -84,17 +105,20 @@ function Player:update(dt)
             end
         end
     end
-    self.yv = self.yv + 600 * dt
+end
 
+function Player:updateIsDead()
     if (self.y > WH or self.y + self.image:getHeight() < 0) and not self.isDead then
-        -- move player off screen | Also removes sound effect when on platform
+        -- move self off screen | Also removes sound effect when on platform
         self.x = -100
         
         self.isDead = true
         sounds.death:play()
         score.updateHighscore()
     end
+end
 
+function Player:updateWithSnowman()
     if snowman:hasHit() and not snowman.isHit and not self.isDead then
         snowman:dwindle()
         bonusPopup.poppingOut = true
@@ -110,3 +134,5 @@ function Player:restart()
     self.xv = 0
     self.yv = 0
 end
+
+return Player
