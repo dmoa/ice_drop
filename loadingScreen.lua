@@ -1,4 +1,5 @@
 local loadingScreen = {
+
     image =  love.graphics.newImage("assets/imgs/loading.png"),
     canvas = love.graphics.newCanvas(),
     angle = 0,
@@ -12,48 +13,50 @@ local loadingScreen = {
     shifting = false,
     shifted = false,
     offsetX = 0
+
 }
 
-loadingScreen.draw = function()
-    love.graphics.draw(loadingScreen.canvas, 0, 0, 0, scale, scale)
+function loadingScreen:draw()
+    love.graphics.draw(self.canvas, 0, 0, 0, scale, scale)
 end
 
-loadingScreen.update = function(dt)
-    if not loadingScreen.flipping then
-        if loadingScreen.isRotatingCW then
-            loadingScreen.angle = loadingScreen.angle + dt / 3
-            if loadingScreen.angle > math.pi / 50 then loadingScreen.isRotatingCW = false end
+-- not my cleanest code...
+function loadingScreen:update(dt)
+    if (not self.flipping) then
+        if self.isRotatingCW then
+            self.angle = self.angle + dt / 3
+            if self.angle > math.pi / 50 then self.isRotatingCW = false end
         else
-            loadingScreen.angle = loadingScreen.angle - dt / 3
-            if loadingScreen.angle < -  math.pi / 50 then loadingScreen.isRotatingCW = true end
+            self.angle = self.angle - dt / 3
+            if self.angle < -  math.pi / 50 then self.isRotatingCW = true end
         end
     else
-        loadingScreen.flippedAngle = loadingScreen.flippedAngle + dt * 4
-        if loadingScreen.flippedAngle > math.pi then 
-            loadingScreen.flipping = false
-            loadingScreen.flipped = true
+        self.flippedAngle = self.flippedAngle + dt * 4
+        if self.flippedAngle > math.pi then 
+            self.flipping = false
+            self.flipped = true
         end
     end
-    love.graphics.setCanvas(loadingScreen.canvas)
+    love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
-    love.graphics.draw(loadingScreen.image, (round(WW / 2 / scale) * scale) / scale, -115 / scale, 
-    loadingScreen.angle + loadingScreen.flippedAngle, 1, 1, loadingScreen.image:getWidth() / 2 + loadingScreen.offsetX,
-    loadingScreen.image:getHeight() / 2)
+    love.graphics.draw(self.image, (round(WW / 2 / scale) * scale) / scale, -115 / scale, 
+    self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
+    self.image:getHeight() / 2)
     love.graphics.setCanvas()
 
-    if loadingScreen.timeToLoad < 0 then
-        if not loadingScreen.flipped then
-            loadingScreen.flipping = true
+    if self.timeToLoad < 0 then
+        if not self.flipped then
+            self.flipping = true
         end
     else
-        loadingScreen.timeToLoad = loadingScreen.timeToLoad - dt
+        self.timeToLoad = self.timeToLoad - dt
     end
 
-    if loadingScreen.shifting then
-        loadingScreen.offsetX = loadingScreen.offsetX - 800 * dt
-        if loadingScreen.offsetX > WW * 1.5 then
-            loadingScreen.shifting = false
-            loadingScreen.shifted = true
+    if self.shifting then
+        self.offsetX = self.offsetX - 800 * dt
+        if self.offsetX > WW * 1.5 then
+            self.shifting = false
+            self.shifted = true
         end
     end
 end

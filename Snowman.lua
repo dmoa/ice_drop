@@ -1,22 +1,24 @@
-Snowman = class(
-    function(self)
-        self.image = love.graphics.newImage("assets/imgs/snowman.png")
-        self.topQuad = love.graphics.newQuad(0, 0, 8, 8, self.image:getDimensions())
-        self.bottomQuad = love.graphics.newQuad(0, 8, 8, 8, self.image:getDimensions())
+_image = love.graphics.newImage("assets/imgs/snowman.png")
 
-        self.angle = 0
-        self.isRotatingCW = true
+local Snowman = {
 
-        self.x = love.math.random(0, WW - self.image:getWidth() * scale)
-        self.y = -100
+    image = _image,
+    topQuad = love.graphics.newQuad(0, 0, 8, 8, _image:getDimensions()),
+    bottomQuad = love.graphics.newQuad(0, 8, 8, 8, _image:getDimensions()),
 
-        self.canvas = love.graphics.newCanvas()
+    angle = 0,
+    isRotatingCW = true,
 
-        self.isHit = false
-        self.rotationSpeed = 1
-        self.maxRotation = math.pi / 8
-    end
-)
+    x = love.math.random(0, 50 * scale),
+    y = -100,
+
+    canvas = love.graphics.newCanvas(),
+
+    isHit = false,
+    rotationSpeed = 1,
+    maxRotation = math.pi / 8
+
+}
 
 function Snowman:draw()
     love.graphics.draw(self.canvas, 0, 0, 0, scale, scale)
@@ -40,9 +42,9 @@ function Snowman:update(dt)
     end
     self.y = self.y - scrollSpeed * dt
     if self.y + self.image:getHeight() * scale < 0 then
-        self.x = love.math.random(platforms[#platforms].x + self.image:getWidth() * scale / 2,
-        platforms[#platforms].x + platforms[#platforms].image:getWidth() * scale - self.image:getWidth() * scale / 2)
-         self.y = platforms[#platforms].y - (self.image:getHeight() - 8) * scale
+        self.x = love.math.random(platforms.platforms[#platforms.platforms].x + self.image:getWidth() * scale / 2,
+        platforms.platforms[#platforms.platforms].x + platforms.image:getWidth() * scale - self.image:getWidth() * scale / 2)
+         self.y = platforms.platforms[#platforms.platforms].y - (self.image:getHeight() - 8) * scale
          self.isHit = false
          self.rotationSpeed = 1
          self.maxRotation = math.pi / 8
@@ -61,3 +63,5 @@ function Snowman:dwindle()
     self.rotationSpeed = 15
     self.maxRotation = math.pi / 2
 end
+
+return Snowman

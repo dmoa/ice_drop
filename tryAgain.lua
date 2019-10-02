@@ -8,11 +8,11 @@ local tryAgainPopup = {
     reversing = false
 }
 
-tryAgainPopup.draw = function()
+function tryAgainPopup:draw()
     love.graphics.draw(tryAgainPopup.canvas, 0, 0, 0, scale)
 end
 
-tryAgainPopup.update = function(dt)
+function tryAgainPopup:update(dt)
 
     if tryAgainPopup.reversing then
         tryAgainPopup.turnedAngle = tryAgainPopup.turnedAngle + dt * 4

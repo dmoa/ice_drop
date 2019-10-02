@@ -7,11 +7,11 @@ local Bonus = {
     popoutSpeed = -1000
 }
 
-Bonus.draw = function()
+function Bonus:draw()
     love.graphics.draw(Bonus.image, (round(Bonus.x / scale) * scale), (round(Bonus.y / scale) * scale), 0, scale, scale)
 end
 
-Bonus.update = function(dt)
+function Bonus:update(dt)
     if Bonus.poppingOut then
         Bonus.x = Bonus.x + Bonus.popoutSpeed * dt
         Bonus.popoutSpeed = Bonus.popoutSpeed + Bonus.acceleration * dt

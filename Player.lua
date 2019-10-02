@@ -84,9 +84,9 @@ end
 
 function Player:updateWithPlatforms()
     self.isFalling = true
-    for k, platform in ipairs(platforms) do
+    for k, platform in ipairs(platforms.platforms) do
         if platform.y < WH then
-            if platform:isPlayerOn() then
+            if platforms:isPlayerOn(platform) then
                 if self.oldY + self.image:getHeight() * scale / 2 <= platform.oldY then
                     self.y = platform.y - self.image:getWidth() / 2 * scale
                     self.yv = 0
@@ -95,9 +95,9 @@ function Player:updateWithPlatforms()
                     sounds.jump:play()
                 end
             end
-            if platform:isPlayerOn() then
+            if platforms:isPlayerOn(platform) then
                 if self.oldX + self.image:getWidth() / 2 * scale <= platform.x or 
-                self.oldX - self.image:getWidth() / 2 * scale >= platform.x + platform.image:getWidth() * scale then
+                self.oldX - self.image:getWidth() / 2 * scale >= platform.x + platforms.image:getWidth() * scale then
                     self.x = self.oldX
                     self.xv = 0
                 end
@@ -113,7 +113,7 @@ function Player:updateIsDead()
         
         self.isDead = true
         sounds.death:play()
-        score.updateHighscore()
+        score:updateHighscore()
     end
 end
 
