@@ -11,7 +11,6 @@ function love.load()
     loadingScreen = require("loadingScreen")
     bonusPopup = require("Bonus")
 
-    require("Player")
     require("Platform")
     require("Snowman")
 
@@ -86,7 +85,8 @@ function start()
     bgImage = love.graphics.newImage("assets/imgs/bg.png")
     bgY = 0
 
-    player = Player()
+    player = require("Player")
+    player:restart()
     isPlaying = true
     tryAgainPopup = require("tryAgain")
 
