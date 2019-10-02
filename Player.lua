@@ -27,17 +27,19 @@ function Player:draw()
 end
 
 function Player:update(dt)
+    if not self.isDead then
 
-    Player:updateRotation(dt)
-    Player:updateMovement(dt)
+        Player:updateRotation(dt)
+        Player:updateMovement(dt)
 
-    Player:updateWithPlatforms()
-    Player:updateWithSnowman()
+        Player:updateWithPlatforms()
+        Player:updateWithSnowman()
+        
+        Player:updateIsDead()
+        
+        Player:updateCanvas()
     
-    Player:updateIsDead()
-    
-    Player:updateCanvas()
-
+    end
 end
 
 function Player:updateRotation(dt)
@@ -75,9 +77,9 @@ function Player:updateMovement(dt)
     if self.xv > self.xvMax then self.xv = self.xvMax end
     if self.xv < -self.xvMax then self.xv = -self.xvMax end
     
-    self.oldX = self.x
+    self.oldX = self.x % WW
     self.oldY = self.y
-    self.x = self.x + self.xv * dt
+    self.x = (self.x + self.xv * dt) % WW
     self.y = self.y + self.yv * dt
     self.yv = self.yv + 600 * dt
 end
@@ -106,9 +108,9 @@ function Player:updateWithPlatforms()
 end
 
 function Player:updateIsDead()
-    if (self.y > WH or self.y + self.image:getHeight() < 0) and not self.isDead then
-        self.x = -100
+    if (self.y > WH + 50 or self.y + self.image:getHeight() < 0) and not self.isDead then
         self.isDead = true
+        self.y = WW + 50
         score:updateHighscore()
         anthem:stop()
         sounds.death:play()
