@@ -6,20 +6,6 @@ function love.load()
     love.mouse.setVisible(false)
 
     function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end    
-    function deepcopy(orig)
-        local orig_type = type(orig)
-        local copy
-        if orig_type == 'table' then
-            copy = {}
-            for orig_key, orig_value in next, orig, nil do
-                copy[deepcopy(orig_key)] = deepcopy(orig_value)
-            end
-            setmetatable(copy, deepcopy(getmetatable(orig)))
-        else -- number, string, boolean, etc
-            copy = orig
-        end
-        return copy
-    end
 
     loadingScreen = require("loadingScreen")
     bonusPopup = require("Bonus")
@@ -27,11 +13,12 @@ function love.load()
     isPlaying = false
 
     sounds = {
-        bonus = love.audio.newSource("assets/sounds/bonus.wav","static"), 
-        death = love.audio.newSource("assets/sounds/death.wav", "static"),
-        jump = love.audio.newSource("assets/sounds/jump.wav", "static")
-}
+        bonus = love.audio.newSource("assets/sounds/bonus.wav","static"),
+        death = love.audio.newSource("assets/sounds/death.wav", "static")
+    }
 
+    anthem = love.audio.newSource("assets/sounds/anthem.ogg", "stream")
+    anthem:isLooping(true)
 end
 
 
@@ -106,6 +93,8 @@ function start()
 
     score = require("score")
     snowman = require("Snowman")
+
+    anthem:play()
 end
 
 function restart()
@@ -115,6 +104,7 @@ function restart()
     tryAgainPopup.reversing = true
     score.timer = 0
     snowman.y = -100
+    anthem:play()
 end
 
 function love.keypressed(key)

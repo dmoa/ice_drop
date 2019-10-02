@@ -92,7 +92,6 @@ function Player:updateWithPlatforms()
                     self.yv = 0
                     self.angle = 0
                     self.isFalling = false
-                    sounds.jump:play()
                 end
             end
             if platforms:isPlayerOn(platform) then
@@ -108,9 +107,11 @@ end
 
 function Player:updateIsDead()
     if (self.y > WH or self.y + self.image:getHeight() < 0) and not self.isDead then
-        -- move self off screen
+        self.x = -100
         self.isDead = true
         score:updateHighscore()
+        anthem:stop()
+        sounds.death:play()
     end
 end
 
@@ -119,7 +120,6 @@ function Player:updateWithSnowman()
         snowman:dwindle()
         bonusPopup.poppingOut = true
         score.timer = score.timer + 10
-        sounds.bonus:play()
     end
 end
 
