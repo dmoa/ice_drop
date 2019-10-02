@@ -21,7 +21,7 @@ function score:draw()
 end
 
 function score:update(dt)
-    self.timer = self.timer + dt
+    self.timer = self.timer + dt / 6 * 7
 end
 
 function score:updateHighscore()
