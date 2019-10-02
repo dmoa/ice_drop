@@ -108,11 +108,8 @@ end
 
 function Player:updateIsDead()
     if (self.y > WH or self.y + self.image:getHeight() < 0) and not self.isDead then
-        -- move self off screen | Also removes sound effect when on platform
-        self.x = -100
-        
+        -- move self off screen
         self.isDead = true
-        sounds.death:play()
         score:updateHighscore()
     end
 end
