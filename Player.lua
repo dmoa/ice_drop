@@ -19,7 +19,6 @@ local Player = {
     direction = "left",
     isDead = false,
     isFalling = false
-
 }
 
 
@@ -38,12 +37,12 @@ function Player:update(dt)
     Player:updateIsDead()
     
     Player:updateCanvas()
-    
+
 end
 
 function Player:updateRotation(dt)
-    if love.keyboard.isDown("d") then self.direction = "right" end
-    if love.keyboard.isDown("a") then self.direction = "left" end
+    if love.keyboard.isDown("d") or love.keyboard.isDown("right") then self.direction = "right" end
+    if love.keyboard.isDown("a") or love.keyboard.isDown("left") then self.direction = "left" end
 
     if self.isFalling then 
         if self.direction == "right" then
@@ -66,10 +65,10 @@ function Player:updateCanvas()
 end
 
 function Player:updateMovement(dt)
-    if love.keyboard.isDown("a") then self.xv = self.xv - self.xv_acceleration * dt end
-    if love.keyboard.isDown("d") then self.xv = self.xv + self.xv_acceleration * dt end
+    if love.keyboard.isDown("a") or love.keyboard.isDown("left") then self.xv = self.xv - self.xv_acceleration * dt end
+    if love.keyboard.isDown("d") or love.keyboard.isDown("right") then self.xv = self.xv + self.xv_acceleration * dt end
 
-    if not love.keyboard.isDown("a") and not love.keyboard.isDown("d") then
+    if not love.keyboard.isDown("a") and not love.keyboard.isDown("d") and not love.keyboard.isDown("right") and not love.keyboard.isDown("left") then
         self.xv = self.xv * math.pow(self.friction, dt)
     end 
 
