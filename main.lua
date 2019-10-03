@@ -110,5 +110,5 @@ end
 function love.keypressed(key)
     if key == "escape" then love.event.quit() end
     if key == "space" and not isPlaying then start() end
-    if key == "r" and isPlaying and player.isDead then restart() end
+    if (key == "r" or key == "space") and isPlaying and player.isDead then restart() end
 end
