@@ -1,10 +1,12 @@
-_image = love.graphics.newImage("assets/imgs/snowman.png")
+local _image = love.graphics.newImage("assets/imgs/snowman.png")
 
 local Snowman = {
 
     image = _image,
     topQuad = love.graphics.newQuad(0, 0, 8, 8, _image:getDimensions()),
     bottomQuad = love.graphics.newQuad(0, 8, 8, 8, _image:getDimensions()),
+
+    arrowImage = love.graphics.newImage("assets/imgs/arrow.png"),
 
     angle = 0,
     isRotatingCW = true,
@@ -23,7 +25,9 @@ local Snowman = {
 function Snowman:draw()
     love.graphics.draw(self.canvas, 0, 0, 0, scale, scale)
     love.graphics.draw(self.image, self.bottomQuad, (round(self.x / scale) * scale), 
-    (round((self.y) / scale) * scale) + 8 * scale, 0, scale, scale, self.image:getWidth() / 2, self.image:getHeight() / 2)
+                        (round((self.y) / scale) * scale) + 8 * scale, 0, scale, scale, self.image:getWidth() / 2, self.image:getHeight() / 2)
+    love.graphics.draw(self.arrowImage, (round(self.x / scale) * scale), 
+                        (round((self.y) / scale) * scale) - 15 * scale, 0, scale, scale, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
 function Snowman:update(dt)
