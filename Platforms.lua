@@ -52,6 +52,9 @@ end
 function Platforms:resetPlatforms()
     for k, platform in ipairs(self.platforms) do
         self:generatePosition(platform)
+        if platform.y < WH and platform.y > 300 then 
+            platform.x = 60
+        end
     end
 end
 
