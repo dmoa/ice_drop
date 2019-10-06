@@ -3,26 +3,22 @@ local Platforms = {
     image = love.graphics.newImage("assets/imgs/platform.png"),
     canvas = love.graphics.newCanvas(),
     platforms = {},
-    platformGap = 150
+    platformGap = 37.5
     
 }
 
 function Platforms:draw()
-    love.graphics.draw(self.canvas, 0, 0, 0, scale, scale)
+    for k, platform in ipairs(self.platforms) do
+        love.graphics.draw(self.image, round(platform.x), round(platform.y))
+    end
 end
 
 function Platforms:update(dt)
-    love.graphics.setCanvas(self.canvas)
-    love.graphics.clear() 
-    for k, platform in ipairs(self.platforms) do
-        love.graphics.draw(self.image, (round(platform.x / scale) * scale) / scale, (round(platform.y / scale) * scale) / scale)
-    end
-    love.graphics.setCanvas()
 
     for k, platform in ipairs(platforms.platforms) do
         platform.oldY = platform.y
         platform.y = platform.y - scrollSpeed * dt
-        if platform.y + self.image:getHeight() * scale < 0 then 
+        if platform.y + self.image:getHeight() < 0 then 
             self:generatePosition(platform) 
             self:moveToBottom(platform)
         end
@@ -31,14 +27,14 @@ function Platforms:update(dt)
 end
 
 function Platforms:isPlayerOn(platform)
-    return (player.x + player.image:getWidth() / 2 * scale > platform.x and 
-    player.x - player.image:getWidth() / 2 * scale < platform.x + self.image:getWidth() * scale
-    and player.y + player.image:getHeight() / 2 * scale > platform.y and 
-    player.y - player.image:getHeight() / 2 * scale < platform.y + self.image:getHeight() * scale)
+    return (player.x + player.image:getWidth() / 2 > platform.x and 
+    player.x - player.image:getWidth() / 2 < platform.x + self.image:getWidth()
+    and player.y + player.image:getHeight() / 2 > platform.y and 
+    player.y - player.image:getHeight() / 2 < platform.y + self.image:getHeight())
 end
 
 function Platforms:generatePosition(platform, y)
-    platform.x = love.math.random(0, WW - self.image:getWidth() * scale)
+    platform.x = love.math.random(0, WW / 4 - self.image:getWidth())
     if y then
         platform.y = y
         platform.oldY = platform.y
@@ -52,8 +48,8 @@ end
 function Platforms:resetPlatforms()
     for k, platform in ipairs(self.platforms) do
         self:generatePosition(platform)
-        if platform.y < WH and platform.y > 300 then 
-            platform.x = 60
+        if platform.y < WH / 4 and platform.y > 75 then 
+            platform.x = 20
         end
     end
 end

@@ -8,11 +8,11 @@ local Player = {
 
     x = 75,
     xv = 0,
-    xv_acceleration = 3000,
-    xvMax = 200,
-    friction = 0.5,
+    xv_acceleration = 700,
+    xvMax = 50,
+    friction = 0.4,
 
-    y = 300,
+    y = 50,
     oldY = y,
     yv = 0,
 
@@ -23,7 +23,11 @@ local Player = {
 
 
 function Player:draw()
-    love.graphics.draw(self.canvas, 0, 0, 0, scale, scale)
+    -- coords / scale so that enlarging the canvas doesn't displace the self
+    love.graphics.draw(self.image, round(self.x), round(self.y), 
+    self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
+    love.graphics.draw(self.reflectionImage, round(self.x), round(self.y), 
+    self.angle / 4, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
 function Player:update(dt)
@@ -36,8 +40,6 @@ function Player:update(dt)
         Player:updateWithSnowman()
         
         Player:updateIsDead()
-        
-        Player:updateCanvas()
     
     end
 end
@@ -55,17 +57,6 @@ function Player:updateRotation(dt)
     end
 end
 
-function Player:updateCanvas()
-    -- coords / scale so that enlarging the canvas doesn't displace the self
-    love.graphics.setCanvas(self.canvas)
-    love.graphics.clear()
-    love.graphics.draw(self.image, (round(self.x / scale) * scale) / scale, (round(self.y / scale) * scale) / scale, 
-    self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.reflectionImage, (round(self.x / scale) * scale) / scale, (round(self.y / scale) * scale) / scale, 
-    self.angle / 4, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.setCanvas()
-end
-
 function Player:updateMovement(dt)
     if love.keyboard.isDown("a") or love.keyboard.isDown("left") then self.xv = self.xv - self.xv_acceleration * dt end
     if love.keyboard.isDown("d") or love.keyboard.isDown("right") then self.xv = self.xv + self.xv_acceleration * dt end
@@ -79,9 +70,9 @@ function Player:updateMovement(dt)
     
     self.oldX = self.x % WW
     self.oldY = self.y
-    self.x = (self.x + self.xv * dt) % WW
+    self.x = (self.x + self.xv * dt) % (WW / scale)
     self.y = self.y + self.yv * dt
-    self.yv = self.yv + 600 * dt
+    self.yv = self.yv + 200 * dt
 end
 
 function Player:updateWithPlatforms()
@@ -89,16 +80,16 @@ function Player:updateWithPlatforms()
     for k, platform in ipairs(platforms.platforms) do
         if platform.y < WH then
             if platforms:isPlayerOn(platform) then
-                if self.oldY + self.image:getHeight() * scale / 2 <= platform.oldY then
-                    self.y = platform.y - self.image:getWidth() / 2 * scale
+                if self.oldY + self.image:getHeight() / 2 <= platform.oldY then
+                    self.y = platform.y - self.image:getWidth() / 2
                     self.yv = 0
                     self.angle = 0
                     self.isFalling = false
                 end
             end
             if platforms:isPlayerOn(platform) then
-                if self.oldX + self.image:getWidth() / 2 * scale <= platform.x or 
-                self.oldX - self.image:getWidth() / 2 * scale >= platform.x + platforms.image:getWidth() * scale then
+                if self.oldX + self.image:getWidth() / 2 <= platform.x or 
+                self.oldX - self.image:getWidth() / 2 >= platform.x + platforms.image:getWidth() then
                     self.x = self.oldX
                     self.xv = 0
                 end
@@ -108,7 +99,7 @@ function Player:updateWithPlatforms()
 end
 
 function Player:updateIsDead()
-    if (self.y > WH + 50 or self.y + self.image:getHeight() < 0) and not self.isDead then
+    if (self.y > (WH / scale) or (self.y + self.image:getHeight() / 2 -1 < 0)) and not self.isDead then
         self.isDead = true
         self.y = WW + 50
         score:updateHighscore()
@@ -120,15 +111,15 @@ end
 function Player:updateWithSnowman()
     if snowman:hasHit() and not snowman.isHit and not self.isDead then
         snowman:dwindle()
-        bonusPopup.poppingOut = true
+        bonusPopup:pop()
         score.timer = score.timer + 10
     end
 end
 
 function Player:restart()
     self.isDead = false
-    self.x = 75
-    self.y = 150
+    self.x = 20
+    self.y = 50
     self.xv = 0
     self.yv = 0
 end

@@ -17,7 +17,7 @@ local loadingScreen = {
 }
 
 function loadingScreen:draw()
-    love.graphics.draw(self.canvas, 0, 0, 0, scale, scale)
+    love.graphics.draw(self.canvas, 0, 0, 0)
 end
 
 -- not my cleanest code...

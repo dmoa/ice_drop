@@ -5,13 +5,13 @@ function love.load()
     scale = 4
     WW, WH = love.graphics.getDimensions()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
+    mainCanvas = love.graphics.newCanvas()
     love.mouse.setVisible(false)
 
     isPlaying = false
     
     loadingScreen = require("loadingScreen")
     bonusPopup = require("Bonus")
-
 
     sounds = {
         bonus = love.audio.newSource("assets/sounds/bonus.wav","static"),
@@ -25,13 +25,14 @@ end
 
 function love.draw()
 
+    love.graphics.setCanvas(mainCanvas)
+
     if isPlaying then
 
-        love.graphics.draw(bgImage, 0, round(bgY / scale) * scale, 0, scale, scale)
+        love.graphics.draw(bgImage, 0, bgY)
         player:draw()
         platforms:draw()
         snowman:draw()
-
         if player.isDead or tryAgainPopup.reversing then
             tryAgainPopup:draw()
         end
@@ -41,9 +42,10 @@ function love.draw()
     if not loadingScreen.shifted then
         loadingScreen:draw()
     end 
-    if bonusPopup.poppingOut then
-        bonusPopup.draw()
-    end
+    bonusPopup:draw()
+
+    love.graphics.setCanvas()
+    love.graphics.draw(mainCanvas, 0, 0, 0, scale, scale)
 
 end
 
@@ -51,16 +53,15 @@ function love.update(dt)
 
     if isPlaying then
 
-        scrollSpeed = scrollSpeed + dt * 3
+        scrollSpeed = scrollSpeed + dt
         player:update(dt)
-
         if not player.isDead then
             
             platforms:update(dt)
             snowman:update(dt)
 
             bgY = bgY - scrollSpeed * dt
-            if bgY < -bgImage:getHeight() / 2 * scale then bgY = 0 end
+            if bgY < -bgImage:getHeight() / 2 then bgY = 0 end
 
             score:update(dt)
         end
@@ -68,9 +69,7 @@ function love.update(dt)
         if player.isDead or tryAgainPopup.reversing then
             tryAgainPopup:update(dt)
         end
-        if bonusPopup.poppingOut then
-            bonusPopup:update(dt)
-        end
+        bonusPopup:update(dt)
 
     end
 
@@ -80,7 +79,8 @@ function love.update(dt)
 end
 
 function start()
-    scrollSpeed = 125
+
+    scrollSpeed = 40
     bgImage = love.graphics.newImage("assets/imgs/bg.png")
     bgY = 0
 
@@ -96,10 +96,12 @@ function start()
     score = require("score")
 
     anthem:play()
+    
 end
 
 function restart()
-    scrollSpeed = 125
+
+    scrollSpeed = 40
     
     platforms:resetPlatforms()
     player:restart()
@@ -110,6 +112,7 @@ function restart()
     score.timer = 0
     
     anthem:play()
+
 end
 
 function love.keypressed(key)

@@ -9,7 +9,7 @@ local tryAgainPopup = {
 }
 
 function tryAgainPopup:draw()
-    love.graphics.draw(tryAgainPopup.canvas, 0, 0, 0, scale)
+    love.graphics.draw(tryAgainPopup.canvas, 0, 0, 0)
 end
 
 function tryAgainPopup:update(dt)
