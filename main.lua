@@ -1,9 +1,9 @@
 function love.load()
     
     function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end    
-
+    gameWL = 512
     scale = 4
-    WW, WH = love.graphics.getDimensions()
+    canvasScale = 4
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     mainCanvas = love.graphics.newCanvas()
     love.mouse.setVisible(false)
@@ -45,8 +45,10 @@ function love.draw()
     bonusPopup:draw()
 
     love.graphics.setCanvas()
-    love.graphics.draw(mainCanvas, 0, 0, 0, scale, scale)
-
+    love.graphics.draw(mainCanvas, 0, 0, 0, canvasScale, canvasScale)
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.rectangle("fill", 128 * canvasScale, 0, love.graphics.getWidth(), love.graphics.getHeight())
+    love.graphics.setColor(1, 1, 1)
 end
 
 function love.update(dt)
@@ -119,4 +121,8 @@ function love.keypressed(key)
     if key == "escape" then love.event.quit() end
     if key == "space" and not isPlaying then start() end
     if (key == "r" or key == "space") and isPlaying and player.isDead then restart() end
+    if key == "f" then 
+        love.window.setFullscreen(not love.window.getFullscreen())
+        canvasScale = love.graphics.getHeight() / gameWL * 4
+    end
 end

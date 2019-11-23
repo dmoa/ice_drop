@@ -68,9 +68,9 @@ function Player:updateMovement(dt)
     if self.xv > self.xvMax then self.xv = self.xvMax end
     if self.xv < -self.xvMax then self.xv = -self.xvMax end
     
-    self.oldX = self.x % WW
+    self.oldX = self.x % gameWL
     self.oldY = self.y
-    self.x = (self.x + self.xv * dt) % (WW / scale)
+    self.x = (self.x + self.xv * dt) % (gameWL / scale)
     self.y = self.y + self.yv * dt
     self.yv = self.yv + 200 * dt
 end
@@ -78,7 +78,7 @@ end
 function Player:updateWithPlatforms()
     self.isFalling = true
     for k, platform in ipairs(platforms.platforms) do
-        if platform.y < WH then
+        if platform.y < gameWL then
             if platforms:isPlayerOn(platform) then
                 if self.oldY + self.image:getHeight() / 2 <= platform.oldY then
                     self.y = platform.y - self.image:getWidth() / 2
@@ -99,9 +99,9 @@ function Player:updateWithPlatforms()
 end
 
 function Player:updateIsDead()
-    if (self.y > (WH / scale) or (self.y + self.image:getHeight() / 2 -1 < 0)) and not self.isDead then
+    if (self.y > (gameWL / scale) or (self.y + self.image:getHeight() / 2 -1 < 0)) and not self.isDead then
         self.isDead = true
-        self.y = WW + 50
+        self.y = gameWL + 50
         score:updateHighscore()
         anthem:stop()
         sounds.death:play()

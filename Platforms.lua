@@ -34,7 +34,7 @@ function Platforms:isPlayerOn(platform)
 end
 
 function Platforms:generatePosition(platform, y)
-    platform.x = love.math.random(0, WW / 4 - self.image:getWidth())
+    platform.x = love.math.random(0, gameWL / 4 - self.image:getWidth())
     if y then
         platform.y = y
         platform.oldY = platform.y
@@ -48,7 +48,7 @@ end
 function Platforms:resetPlatforms()
     for k, platform in ipairs(self.platforms) do
         self:generatePosition(platform)
-        if platform.y < WH / 4 and platform.y > 75 then 
+        if platform.y < gameWL / 4 and platform.y > 75 then 
             platform.x = 20
         end
     end

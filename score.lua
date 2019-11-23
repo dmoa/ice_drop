@@ -16,7 +16,7 @@ end
 function score:draw()
     for i = 1, #tostring(math.floor(self.timer)) do
         love.graphics.draw(self.spritesheet, self.quads[tostring(math.floor(self.timer)):sub(i, i) + 1], 
-                            (WW / scale) - self.numberLength, (i - 1) * self.numberLength, 0)
+                            (gameWL / scale) - self.numberLength, (i - 1) * self.numberLength, 0)
     end
 end
 

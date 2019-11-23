@@ -39,7 +39,7 @@ function loadingScreen:update(dt)
     end
     love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
-    love.graphics.draw(self.image, (round(WW / 2 / scale) * scale) / scale, -115 / scale, 
+    love.graphics.draw(self.image, (round(gameWL / 2 / scale) * scale) / scale, -115 / scale, 
     self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
     self.image:getHeight() / 2)
     love.graphics.setCanvas()
@@ -54,7 +54,7 @@ function loadingScreen:update(dt)
 
     if self.shifting then
         self.offsetX = self.offsetX - 800 * dt
-        if self.offsetX > WW * 1.5 then
+        if self.offsetX > gameWL * 1.5 then
             self.shifting = false
             self.shifted = true
         end
