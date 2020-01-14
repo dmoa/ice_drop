@@ -23,11 +23,11 @@ local Snowman = {
 }
 
 function Snowman:draw()
-    love.graphics.draw(self.image, self.bottomQuad, round(self.x), 
-                        round(self.y) + 8, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.arrowImage, round(self.x), 
-                        round(self.y) - 15, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.image, self.topQuad, round(self.x), round(self.y), 
+    love.graphics.draw(self.image, self.bottomQuad, math.floor(self.x), 
+                        math.floor(self.y) + 8, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
+    love.graphics.draw(self.arrowImage, math.floor(self.x), 
+                        math.floor(self.y) - 15, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
+    love.graphics.draw(self.image, self.topQuad, math.floor(self.x), math.floor(self.y), 
                         self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
@@ -40,7 +40,9 @@ function Snowman:update(dt)
         self.angle = self.angle - dt * self.rotationSpeed
         if self.angle < -  self.maxRotation then self.isRotatingCW = true end
     end
+
     self.y = self.y - scrollSpeed * dt
+    
     if self.y + self.image:getHeight() < 0 then
         self.x = love.math.random(platforms.platforms[#platforms.platforms].x + self.image:getWidth() / 2,
         platforms.platforms[#platforms.platforms].x + platforms.image:getWidth() - self.image:getWidth() / 2)

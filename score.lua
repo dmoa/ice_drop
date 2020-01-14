@@ -3,7 +3,7 @@ local score = {
     spritesheet = love.graphics.newImage("assets/imgs/numbers.png"),
     quads = {},
     numberLength = 16,
-    timer = 0,
+    score = 0,
     highscore = 0
 
 }
@@ -14,19 +14,19 @@ for i = 0, 9 do
 end
 
 function score:draw()
-    for i = 1, #tostring(math.floor(self.timer)) do
-        love.graphics.draw(self.spritesheet, self.quads[tostring(math.floor(self.timer)):sub(i, i) + 1], 
+    for i = 1, #tostring(math.floor(self.score)) do
+        love.graphics.draw(self.spritesheet, self.quads[tostring(math.floor(self.score)):sub(i, i) + 1], 
                             (gameWL / scale) - self.numberLength, (i - 1) * self.numberLength, 0)
     end
 end
 
 function score:update(dt)
-    self.timer = self.timer + dt / 6 * 7
+    self.score = self.score + dt / 6 * 7
 end
 
 function score:updateHighscore()
-    if math.floor(self.timer) > self.highscore then
-        self.highscore = math.floor(self.timer)
+    if math.floor(self.score) > self.highscore then
+        self.highscore = math.floor(self.score)
     end
 end
 

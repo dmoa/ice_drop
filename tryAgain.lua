@@ -40,8 +40,8 @@ function tryAgainPopup:update(dt)
     love.graphics.setCanvas(tryAgainPopup.canvas)
     love.graphics.clear()
     love.graphics.draw(tryAgainPopup.image, 0, 0, tryAgainPopup.angle + tryAgainPopup.turnedAngle)
-    for i = 1, #tostring(math.floor(score.timer)) do
-        love.graphics.draw(score.spritesheet, score.quads[tostring(math.floor(score.timer)):sub(i, i) + 1], 
+    for i = 1, #tostring(math.floor(score.score)) do
+        love.graphics.draw(score.spritesheet, score.quads[tostring(math.floor(score.score)):sub(i, i) + 1], 
         0, 0, tryAgainPopup.angle + tryAgainPopup.turnedAngle, 1, 1, (gameWL / 2 + (i - 1) * 50) / -scale, 380 / -scale)
     end
     love.graphics.setCanvas()

@@ -24,24 +24,25 @@ end
 function loadingScreen:update(dt)
     if (not self.flipping) then
         if self.isRotatingCW then
-            self.angle = self.angle + dt / 3
+            self.angle = self.angle + dt / 5
             if self.angle > math.pi / 50 then self.isRotatingCW = false end
         else
-            self.angle = self.angle - dt / 3
+            self.angle = self.angle - dt / 5
             if self.angle < -  math.pi / 50 then self.isRotatingCW = true end
         end
     else
-        self.flippedAngle = self.flippedAngle + dt * 4
+        self.flippedAngle = self.flippedAngle + dt * 4 
         if self.flippedAngle > math.pi then 
             self.flipping = false
             self.flipped = true
         end
     end
+
     love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
-    love.graphics.draw(self.image, (round(gameWL / 2 / scale) * scale) / scale, -115 / scale, 
-    self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
-    self.image:getHeight() / 2)
+    love.graphics.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale, 
+                       self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
+                       self.image:getHeight() / 2)
     love.graphics.setCanvas()
 
     if self.timeToLoad < 0 then

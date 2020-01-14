@@ -8,7 +8,7 @@ local Bonus = {
 }
 
 function Bonus:draw()
-    love.graphics.draw(Bonus.image, round(self.x), round(self.y))
+    love.graphics.draw(Bonus.image, math.floor(self.x), math.floor(self.y))
 end
 
 function Bonus:update(dt)

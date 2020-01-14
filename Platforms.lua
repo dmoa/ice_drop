@@ -3,18 +3,17 @@ local Platforms = {
     image = love.graphics.newImage("assets/imgs/platform.png"),
     canvas = love.graphics.newCanvas(),
     platforms = {},
-    platformGap = 37.5
+    platformGap = 38
     
 }
 
 function Platforms:draw()
     for k, platform in ipairs(self.platforms) do
-        love.graphics.draw(self.image, round(platform.x), round(platform.y))
+        love.graphics.draw(self.image, platform.x, (platform.y))
     end
 end
 
 function Platforms:update(dt)
-
     for k, platform in ipairs(platforms.platforms) do
         platform.oldY = platform.y
         platform.y = platform.y - scrollSpeed * dt
@@ -23,22 +22,17 @@ function Platforms:update(dt)
             self:moveToBottom(platform)
         end
     end
-
 end
 
 function Platforms:isPlayerOn(platform)
     return (player.x + player.image:getWidth() / 2 > platform.x and 
-    player.x - player.image:getWidth() / 2 < platform.x + self.image:getWidth()
-    and player.y + player.image:getHeight() / 2 > platform.y and 
-    player.y - player.image:getHeight() / 2 < platform.y + self.image:getHeight())
+            player.x - player.image:getWidth() / 2 < platform.x + self.image:getWidth()
+            and player.y + player.image:getHeight() / 2 > platform.y and 
+            player.y - player.image:getHeight() / 2 < platform.y + self.image:getHeight())
 end
 
 function Platforms:generatePosition(platform, y)
     platform.x = love.math.random(0, gameWL / 4 - self.image:getWidth())
-    if y then
-        platform.y = y
-        platform.oldY = platform.y
-    end
 end
 
 function Platforms:moveToBottom(platform)
@@ -54,10 +48,17 @@ function Platforms:resetPlatforms()
     end
 end
 
+function Platforms:alignPlatforms(alignY)
+    for k, platform in ipairs(self.platforms) do
+        platform.y = math.floor(platform.y) + alignY
+    end
+end
+
 for i = 1, 20 do
     table.insert(Platforms.platforms, {x = 0, y = Platforms.platformGap * i, oldY = 0})
     table.insert(Platforms.platforms, {x = 0, y = Platforms.platformGap * i, oldY = 0})
 end
+
 Platforms:resetPlatforms()
 
 return Platforms

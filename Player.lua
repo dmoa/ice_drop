@@ -23,11 +23,10 @@ local Player = {
 
 
 function Player:draw()
-    -- coords / scale so that enlarging the canvas doesn't displace the self
-    love.graphics.draw(self.image, round(self.x), round(self.y), 
-    self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.reflectionImage, round(self.x), round(self.y), 
-    self.angle / 4, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
+    love.graphics.draw(self.image, (self.x), (self.y), 
+                       self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
+    love.graphics.draw(self.reflectionImage, (self.x), (self.y), 
+                       self.angle / 4, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
 function Player:update(dt)
@@ -68,11 +67,14 @@ function Player:updateMovement(dt)
     if self.xv > self.xvMax then self.xv = self.xvMax end
     if self.xv < -self.xvMax then self.xv = -self.xvMax end
     
-    self.oldX = self.x % gameWL
+    self.oldX = self.x
     self.oldY = self.y
-    self.x = (self.x + self.xv * dt) % (gameWL / scale)
+    self.x = self.x + self.xv * dt
     self.y = self.y + self.yv * dt
     self.yv = self.yv + 200 * dt
+
+    if self.x < 0 then self.x = 0 end
+    if self.x > gameWL / 4 then self.x = gameWL / 4 end
 end
 
 function Player:updateWithPlatforms()
@@ -112,7 +114,7 @@ function Player:updateWithSnowman()
     if snowman:hasHit() and not snowman.isHit and not self.isDead then
         snowman:dwindle()
         bonusPopup:pop()
-        score.timer = score.timer + 10
+        score.score = score.score + 10
     end
 end
 
