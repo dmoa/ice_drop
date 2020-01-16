@@ -5,6 +5,9 @@ local push = require "libs/push"
 local gameWidth, gameHeight = 128, 128
 push:setupScreen(gameWidth, gameHeight, 512, 512, {fullscreen = false, resizable = true})
 
+local screen = require "libs/shack"
+screen:setDimensions(push:getDimensions())
+
 function love.load()
 
     function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end 
@@ -32,6 +35,7 @@ end
 
 
 function love.draw()
+    screen:apply()
     push:start()
 
 
@@ -101,6 +105,8 @@ function love.update(dt)
         loadingScreen:update(dt)
     end
 
+
+    screen:update(dt)
 end
 
 function start()
@@ -123,6 +129,13 @@ function start()
     introSound:stop()
     anthem:play()
     
+end
+
+function playerDied()
+    score:updateHighscore()
+    anthem:stop()
+    sounds.death:play()
+    screen:setShake(15)
 end
 
 function restart()

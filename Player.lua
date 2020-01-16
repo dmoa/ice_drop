@@ -103,9 +103,7 @@ function Player:updateIsDead()
     if (self.y > (gameWL / scale) or (self.y + self.image:getHeight() / 2 -1 < 0)) and not self.isDead then
         self.isDead = true
         self.y = gameWL + 50
-        score:updateHighscore()
-        anthem:stop()
-        sounds.death:play()
+        playerDied()
     end
 end
 
