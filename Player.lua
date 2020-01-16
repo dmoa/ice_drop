@@ -4,7 +4,6 @@ local Player = {
     reflectionImage = love.graphics.newImage("assets/imgs/iceReflection.png"),
 
     angle = 0,
-    canvas = love.graphics.newCanvas(),
 
     x = 75,
     xv = 0,

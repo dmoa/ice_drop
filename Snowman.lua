@@ -14,8 +14,6 @@ local Snowman = {
     x = love.math.random(0, 50 * scale),
     y = -100,
 
-    canvas = love.graphics.newCanvas(),
-
     isHit = false,
     rotationSpeed = 1,
     maxRotation = math.pi / 8

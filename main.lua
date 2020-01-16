@@ -1,11 +1,16 @@
+love.graphics.setDefaultFilter("nearest", "nearest", 1)
+
+
+local push = require "libs/push"
+local gameWidth, gameHeight = 128, 128
+push:setupScreen(gameWidth, gameHeight, 512, 512, {fullscreen = false, resizable = true})
+
 function love.load()
 
     function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end 
     gameWL = 512
     scale = 4
     canvasScale = 4
-    love.graphics.setDefaultFilter("nearest", "nearest", 1)
-    mainCanvas = love.graphics.newCanvas()
     love.mouse.setVisible(false)
 
     isPlaying = false
@@ -24,9 +29,8 @@ end
 
 
 function love.draw()
+    push:start()
 
-    love.graphics.setCanvas(mainCanvas)
-    love.graphics.clear()
 
     if isPlaying then
 
@@ -45,11 +49,7 @@ function love.draw()
     end 
     bonusPopup:draw()
 
-    love.graphics.setCanvas()
-    love.graphics.draw(mainCanvas, (love.graphics.getWidth() - (gameWL * canvasScale / 4)) / 2, 0, 0, canvasScale, canvasScale)
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.rectangle("fill", 128 * canvasScale + (love.graphics.getWidth() - (gameWL * canvasScale / 4)) / 2, 0, love.graphics.getWidth(), love.graphics.getHeight())
-    love.graphics.setColor(1, 1, 1)
+    push:finish()
 end
 
 function love.update(dt)
@@ -141,8 +141,9 @@ function love.keypressed(key)
     if key == "escape" then love.event.quit() end
     if key == "space" and not isPlaying then start() end
     if (key == "r" or key == "space") and isPlaying and player.isDead then restart() end
-    if key == "f" then
-        love.window.setFullscreen(not love.window.getFullscreen())
-        canvasScale = love.graphics.getHeight() / gameWL * 4
-    end
+    if key == "return" and love.keyboard.isDown("lalt") then push:switchFullscreen() end
+end
+
+function love.resize(w, h)
+  push:resize(w, h)
 end

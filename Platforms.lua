@@ -1,10 +1,8 @@
 local Platforms = {
 
     image = love.graphics.newImage("assets/imgs/platform.png"),
-    canvas = love.graphics.newCanvas(),
     platforms = {},
     platformGap = 38
-    
 }
 
 function Platforms:draw()

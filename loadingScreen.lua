@@ -1,7 +1,6 @@
 local loadingScreen = {
 
     image =  love.graphics.newImage("assets/imgs/loading.png"),
-    canvas = love.graphics.newCanvas(),
     angle = 0,
     -- when drawing it is angle + flippedAngle
     -- when flipping image, flipped angle becomes math.pi
@@ -17,7 +16,9 @@ local loadingScreen = {
 }
 
 function loadingScreen:draw()
-    love.graphics.draw(self.canvas, 0, 0, 0)
+    love.graphics.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale, 
+                       self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
+                       self.image:getHeight() / 2)
 end
 
 -- not my cleanest code...
@@ -37,13 +38,6 @@ function loadingScreen:update(dt)
             self.flipped = true
         end
     end
-
-    love.graphics.setCanvas(self.canvas)
-    love.graphics.clear()
-    love.graphics.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale, 
-                       self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
-                       self.image:getHeight() / 2)
-    love.graphics.setCanvas()
 
     if self.timeToLoad < 0 then
         if not self.flipped then
