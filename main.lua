@@ -25,6 +25,9 @@ function love.load()
     anthem = love.audio.newSource("assets/sounds/anthem.ogg", "stream")
     anthem:isLooping(true)
 
+    introSound = love.audio.newSource("assets/sounds/intro.mp3", "stream")
+    introSound:isLooping(true)
+    introSound:play()
 end
 
 
@@ -117,6 +120,7 @@ function start()
     
     score = require("score")
 
+    introSound:stop()
     anthem:play()
     
 end
@@ -133,6 +137,7 @@ function restart()
     
     score.score = 0
     
+    anthem:seek(love.math.random(anthem:getDuration() * 0.9))
     anthem:play()
 
 end
