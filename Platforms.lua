@@ -15,17 +15,17 @@ function Platforms:update(dt)
     for k, platform in ipairs(platforms.platforms) do
         platform.oldY = platform.y
         platform.y = platform.y - scrollSpeed * dt
-        if platform.y + self.image:getHeight() < 0 then 
-            self:generatePosition(platform) 
+        if platform.y + self.image:getHeight() < 0 then
+            self:generatePosition(platform)
             self:moveToBottom(platform)
         end
     end
 end
 
 function Platforms:isPlayerOn(platform)
-    return (player.x + player.image:getWidth() / 2 > platform.x and 
+    return (player.x + player.image:getWidth() / 2 > platform.x and
             player.x - player.image:getWidth() / 2 < platform.x + self.image:getWidth()
-            and player.y + player.image:getHeight() / 2 > platform.y and 
+            and player.y + player.image:getHeight() / 2 > platform.y and
             player.y - player.image:getHeight() / 2 < platform.y + self.image:getHeight())
 end
 
@@ -40,7 +40,7 @@ end
 function Platforms:resetPlatforms()
     for k, platform in ipairs(self.platforms) do
         self:generatePosition(platform)
-        if platform.y < gameWL / 4 and platform.y > 75 then 
+        if platform.y < gameWL / 4 and platform.y > 75 then
             platform.x = 20
         end
     end

@@ -22,9 +22,9 @@ local Player = {
 
 
 function Player:draw()
-    love.graphics.draw(self.image, (self.x), (self.y), 
+    love.graphics.draw(self.image, (self.x), (self.y),
                        self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.reflectionImage, (self.x), (self.y), 
+    love.graphics.draw(self.reflectionImage, (self.x), (self.y),
                        self.angle / 4, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
@@ -36,9 +36,9 @@ function Player:update(dt)
 
         Player:updateWithPlatforms()
         Player:updateWithSnowman()
-        
+
         Player:updateIsDead()
-    
+
     end
 end
 
@@ -46,11 +46,11 @@ function Player:updateRotation(dt)
     if love.keyboard.isDown("d") or love.keyboard.isDown("right") then self.direction = "right" end
     if love.keyboard.isDown("a") or love.keyboard.isDown("left") then self.direction = "left" end
 
-    if self.isFalling then 
+    if self.isFalling then
         if self.direction == "right" then
-            self.angle = (self.angle + dt * 5) % (math.pi * 2) 
+            self.angle = (self.angle + dt * 5) % (math.pi * 2)
         else
-            self.angle = (self.angle - dt * 5) % (math.pi * 2) 
+            self.angle = (self.angle - dt * 5) % (math.pi * 2)
         end
     end
 end
@@ -61,11 +61,11 @@ function Player:updateMovement(dt)
 
     if not love.keyboard.isDown("a") and not love.keyboard.isDown("d") and not love.keyboard.isDown("right") and not love.keyboard.isDown("left") then
         self.xv = self.xv * math.pow(self.friction, dt)
-    end 
+    end
 
     if self.xv > self.xvMax then self.xv = self.xvMax end
     if self.xv < -self.xvMax then self.xv = -self.xvMax end
-    
+
     self.oldX = self.x
     self.oldY = self.y
     self.x = self.x + self.xv * dt
@@ -89,7 +89,7 @@ function Player:updateWithPlatforms()
                 end
             end
             if platforms:isPlayerOn(platform) then
-                if self.oldX + self.image:getWidth() / 2 <= platform.x or 
+                if self.oldX + self.image:getWidth() / 2 <= platform.x or
                 self.oldX - self.image:getWidth() / 2 >= platform.x + platforms.image:getWidth() then
                     self.x = self.oldX
                     self.xv = 0

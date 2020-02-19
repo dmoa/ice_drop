@@ -10,14 +10,14 @@ screen:setDimensions(push:getDimensions())
 
 function love.load()
 
-    function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end 
+    function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end
     gameWL = 512
     scale = 4
     canvasScale = 4
     love.mouse.setVisible(false)
 
     isPlaying = false
-    
+
     loadingScreen = require("loadingScreen")
     bonusPopup = require("Bonus")
 
@@ -50,10 +50,10 @@ function love.draw()
         end
         score:draw()
     end
-    
+
     if not loadingScreen.shifted then
         loadingScreen:draw()
-    end 
+    end
     bonusPopup:draw()
 
     push:finish()
@@ -65,27 +65,27 @@ function love.update(dt)
 
         player:update(dt)
         if not player.isDead then
-            
+
             scrollSpeed = scrollSpeed + dt
             platforms:update(dt)
             snowman:update(dt)
 
             bgY = bgY - scrollSpeed * dt
-            if bgY < -bgImage:getHeight() / 2 then 
+            if bgY < -bgImage:getHeight() / 2 then
                 --[[
                 ok basically here is the most annoying bug,
                 at some random point, platforms (very slightly) start bouncing weirdly.
                 I figured out why though...
                 So ideally, the background Y and platform Ys are supposed to be pixel perfect, and
                 relative to each other also be pixel perfect, so that it is a seemless aligned background.
-                However, a good rule in game programming is to DRAW pixel perfectly, 
+                However, a good rule in game programming is to DRAW pixel perfectly,
                 but always keep the maths (update()) as float point values.
                 This becomes a problem when bgY is set to 0, as platform Ys could still be float points,
                 Causing the background and platforms to be misaligned.
 
                 To fix this, we sprinkle some code magic to make it work.
                 ]]
-     
+
                 local addedDecimal = platforms.platforms[1].y - math.floor(platforms.platforms[1].y)
                 bgY = addedDecimal
                 platforms:alignPlatforms(addedDecimal)
@@ -123,12 +123,12 @@ function start()
     isPlaying = true
     tryAgainPopup = require("tryAgain")
     loadingScreen.shifting = true
-    
+
     score = require("score")
 
     introSound:stop()
     anthem:play()
-    
+
 end
 
 function playerDied()
@@ -141,15 +141,15 @@ end
 function restart()
 
     scrollSpeed = 40
-    
+
     platforms:resetPlatforms()
     player:restart()
     snowman.y = -100
-    
+
     tryAgainPopup.reversing = true
-    
+
     score.score = 0
-    
+
     anthem:seek(love.math.random(anthem:getDuration() * 0.9))
     anthem:play()
 

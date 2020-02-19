@@ -21,11 +21,11 @@ local Snowman = {
 }
 
 function Snowman:draw()
-    love.graphics.draw(self.image, self.bottomQuad, math.floor(self.x), 
+    love.graphics.draw(self.image, self.bottomQuad, math.floor(self.x),
                         math.floor(self.y) + 8, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.arrowImage, math.floor(self.x), 
+    love.graphics.draw(self.arrowImage, math.floor(self.x),
                         math.floor(self.y) - 15, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.image, self.topQuad, math.floor(self.x), math.floor(self.y), 
+    love.graphics.draw(self.image, self.topQuad, math.floor(self.x), math.floor(self.y),
                         self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
@@ -40,7 +40,7 @@ function Snowman:update(dt)
     end
 
     self.y = self.y - scrollSpeed * dt
-    
+
     if self.y + self.image:getHeight() < 0 then
         self.x = love.math.random(platforms.platforms[#platforms.platforms].x + self.image:getWidth() / 2,
         platforms.platforms[#platforms.platforms].x + platforms.image:getWidth() - self.image:getWidth() / 2)
@@ -53,7 +53,7 @@ end
 
 function Snowman:hasHit()
     return (self.x + self.image:getWidth() > player.x - player.image:getWidth() / 2
-    and self.x - self.image:getWidth() < player.x + player.image:getWidth() / 2 and 
+    and self.x - self.image:getWidth() < player.x + player.image:getWidth() / 2 and
     self.y - self.image:getHeight() / 2 + self.image:getHeight() > player.y - player.image:getHeight() / 2
     and self.y - self.image:getHeight() / 2 < player.y + player.image:getHeight() / 2)
 end

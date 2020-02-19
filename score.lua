@@ -9,13 +9,13 @@ local score = {
 }
 
 for i = 0, 9 do
-    table.insert(score.quads, love.graphics.newQuad(i * score.numberLength, 0, 
+    table.insert(score.quads, love.graphics.newQuad(i * score.numberLength, 0,
                 score.numberLength, score.numberLength, score.spritesheet:getDimensions()))
 end
 
 function score:draw()
     for i = 1, #tostring(math.floor(self.score)) do
-        love.graphics.draw(self.spritesheet, self.quads[tostring(math.floor(self.score)):sub(i, i) + 1], 
+        love.graphics.draw(self.spritesheet, self.quads[tostring(math.floor(self.score)):sub(i, i) + 1],
                             (gameWL / scale) - self.numberLength + (i - #tostring(math.floor(self.score))) * self.numberLength, 0, 0)
     end
 end

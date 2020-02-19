@@ -16,7 +16,7 @@ local loadingScreen = {
 }
 
 function loadingScreen:draw()
-    love.graphics.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale, 
+    love.graphics.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale,
                        self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
                        self.image:getHeight() / 2)
 end
@@ -32,8 +32,8 @@ function loadingScreen:update(dt)
             if self.angle < -  math.pi / 50 then self.isRotatingCW = true end
         end
     else
-        self.flippedAngle = self.flippedAngle + dt * 4 
-        if self.flippedAngle > math.pi then 
+        self.flippedAngle = self.flippedAngle + dt * 4
+        if self.flippedAngle > math.pi then
             self.flipping = false
             self.flipped = true
         end
