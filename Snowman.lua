@@ -1,17 +1,17 @@
-local _image = love.graphics.newImage("assets/imgs/snowman.png")
+local _image = lg.newImage("assets/imgs/snowman.png")
 
 local Snowman = {
 
     image = _image,
-    topQuad = love.graphics.newQuad(0, 0, 8, 8, _image:getDimensions()),
-    bottomQuad = love.graphics.newQuad(0, 8, 8, 8, _image:getDimensions()),
+    topQuad = lg.newQuad(0, 0, 8, 8, _image:getDimensions()),
+    bottomQuad = lg.newQuad(0, 8, 8, 8, _image:getDimensions()),
 
-    arrowImage = love.graphics.newImage("assets/imgs/arrow.png"),
+    arrowImage = lg.newImage("assets/imgs/arrow.png"),
 
     angle = 0,
     isRotatingCW = true,
 
-    x = love.math.random(0, 50 * scale),
+    x = lm.random(0, 50 * scale),
     y = -100,
 
     isHit = false,
@@ -21,11 +21,11 @@ local Snowman = {
 }
 
 function Snowman:draw()
-    love.graphics.draw(self.image, self.bottomQuad, math.floor(self.x),
+    lg.draw(self.image, self.bottomQuad, math.floor(self.x),
                         math.floor(self.y) + 8, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.arrowImage, math.floor(self.x),
+    lg.draw(self.arrowImage, math.floor(self.x),
                         math.floor(self.y) - 15, 0, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.image, self.topQuad, math.floor(self.x), math.floor(self.y),
+    lg.draw(self.image, self.topQuad, math.floor(self.x), math.floor(self.y),
                         self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
@@ -42,7 +42,7 @@ function Snowman:update(dt)
     self.y = self.y - scrollSpeed * dt
 
     if self.y + self.image:getHeight() < 0 then
-        self.x = love.math.random(platforms.platforms[#platforms.platforms].x + self.image:getWidth() / 2,
+        self.x = lm.random(platforms.platforms[#platforms.platforms].x + self.image:getWidth() / 2,
         platforms.platforms[#platforms.platforms].x + platforms.image:getWidth() - self.image:getWidth() / 2)
          self.y = platforms.platforms[#platforms.platforms].y - (self.image:getHeight() - 8)
          self.isHit = false

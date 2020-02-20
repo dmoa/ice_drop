@@ -1,5 +1,5 @@
 local Bonus = {
-    image = love.graphics.newImage("assets/imgs/bonus.png"),
+    image = lg.newImage("assets/imgs/bonus.png"),
     x = gameWL,
     y = 37.5,
     poppingOut = false,
@@ -8,7 +8,7 @@ local Bonus = {
 }
 
 function Bonus:draw()
-    love.graphics.draw(Bonus.image, math.floor(self.x), math.floor(self.y))
+    lg.draw(Bonus.image, math.floor(self.x), math.floor(self.y))
 end
 
 function Bonus:update(dt)

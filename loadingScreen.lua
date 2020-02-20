@@ -1,6 +1,6 @@
 local loadingScreen = {
 
-    image =  love.graphics.newImage("assets/imgs/loading.png"),
+    image =  lg.newImage("assets/imgs/loading.png"),
     angle = 0,
     -- when drawing it is angle + flippedAngle
     -- when flipping image, flipped angle becomes math.pi
@@ -16,7 +16,7 @@ local loadingScreen = {
 }
 
 function loadingScreen:draw()
-    love.graphics.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale,
+    lg.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale,
                        self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
                        self.image:getHeight() / 2)
 end

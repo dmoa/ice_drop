@@ -1,13 +1,13 @@
 local Platforms = {
 
-    image = love.graphics.newImage("assets/imgs/platform.png"),
+    image = lg.newImage("assets/imgs/platform.png"),
     platforms = {},
     platformGap = 38
 }
 
 function Platforms:draw()
     for k, platform in ipairs(self.platforms) do
-        love.graphics.draw(self.image, platform.x, (platform.y))
+        lg.draw(self.image, platform.x, (platform.y))
     end
 end
 
@@ -30,7 +30,7 @@ function Platforms:isPlayerOn(platform)
 end
 
 function Platforms:generatePosition(platform, y)
-    platform.x = love.math.random(0, gameWL / 4 - self.image:getWidth())
+    platform.x = lm.random(0, gameWL / 4 - self.image:getWidth())
 end
 
 function Platforms:moveToBottom(platform)

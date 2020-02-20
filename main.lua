@@ -18,7 +18,7 @@ ltouch = love.touch
 lv = love.video
 lw = love.window
 
-love.graphics.setDefaultFilter("nearest", "nearest", 1)
+lg.setDefaultFilter("nearest", "nearest", 1)
 
 splash = require "libs/splash"
 
@@ -32,7 +32,7 @@ splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 5, {}, f
 push = require "libs/push"
 gameWidth, gameHeight = 128, 128
 gameWL = 512
-love.window.setMode(gameWL, gameWL, {borderless = false})
+lw.setMode(gameWL, gameWL, {borderless = false})
 push:setupScreen(gameWidth, gameHeight, gameWL, gameWL, {fullscreen = false, resizable = true, borderless = false})
 
 screen = require "libs/shack"
@@ -50,13 +50,13 @@ loadingScreen = require("loadingScreen")
 bonusPopup = require("Bonus")
 
 sounds = {
-    bonus = love.audio.newSource("assets/sounds/bonus.wav","static"),
-    death = love.audio.newSource("assets/sounds/death.wav", "static")
+    bonus = la.newSource("assets/sounds/bonus.wav","static"),
+    death = la.newSource("assets/sounds/death.wav", "static")
 }
-anthem = love.audio.newSource("assets/sounds/anthem.ogg", "stream")
+anthem = la.newSource("assets/sounds/anthem.ogg", "stream")
 anthem:isLooping(true)
 
-introSound = love.audio.newSource("assets/sounds/intro.mp3", "stream")
+introSound = la.newSource("assets/sounds/intro.mp3", "stream")
 introSound:isLooping(true)
 introSound:play()
 
@@ -68,7 +68,7 @@ function love.draw()
 
     if isPlaying then
 
-        love.graphics.draw(bgImage, 0, bgY)
+        lg.draw(bgImage, 0, bgY)
         player:draw()
         platforms:draw()
         snowman:draw()
@@ -139,7 +139,7 @@ end
 function start()
 
     scrollSpeed = 40
-    bgImage = love.graphics.newImage("assets/imgs/bg.png")
+    bgImage = lg.newImage("assets/imgs/bg.png")
     bgY = 0
 
     platforms = require("Platforms")
@@ -183,10 +183,10 @@ function restart()
 end
 
 function love.keypressed(key)
-    if key == "escape" then love.event.quit() end
+    if key == "escape" then le.quit() end
     if key == "space" and not isPlaying then start() end
     if (key == "r" or key == "space") and isPlaying and player.isDead then restart() end
-    if key == "return" and love.keyboard.isDown("lalt") then push:switchFullscreen() end
+    if key == "return" and lk.isDown("lalt") then push:switchFullscreen() end
 end
 
 function love.resize(w, h)

@@ -1,7 +1,7 @@
 local Player = {
 
-    image = love.graphics.newImage("assets/imgs/ice.png"),
-    reflectionImage = love.graphics.newImage("assets/imgs/iceReflection.png"),
+    image = lg.newImage("assets/imgs/ice.png"),
+    reflectionImage = lg.newImage("assets/imgs/iceReflection.png"),
 
     angle = 0,
 
@@ -22,9 +22,9 @@ local Player = {
 
 
 function Player:draw()
-    love.graphics.draw(self.image, (self.x), (self.y),
+    lg.draw(self.image, (self.x), (self.y),
                        self.angle, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-    love.graphics.draw(self.reflectionImage, (self.x), (self.y),
+    lg.draw(self.reflectionImage, (self.x), (self.y),
                        self.angle / 4, 1, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
 end
 
@@ -43,8 +43,8 @@ function Player:update(dt)
 end
 
 function Player:updateRotation(dt)
-    if love.keyboard.isDown("d") or love.keyboard.isDown("right") then self.direction = "right" end
-    if love.keyboard.isDown("a") or love.keyboard.isDown("left") then self.direction = "left" end
+    if lk.isDown("d") or lk.isDown("right") then self.direction = "right" end
+    if lk.isDown("a") or lk.isDown("left") then self.direction = "left" end
 
     if self.isFalling then
         if self.direction == "right" then
@@ -56,10 +56,10 @@ function Player:updateRotation(dt)
 end
 
 function Player:updateMovement(dt)
-    if love.keyboard.isDown("a") or love.keyboard.isDown("left") then self.xv = self.xv - self.xv_acceleration * dt end
-    if love.keyboard.isDown("d") or love.keyboard.isDown("right") then self.xv = self.xv + self.xv_acceleration * dt end
+    if lk.isDown("a") or lk.isDown("left") then self.xv = self.xv - self.xv_acceleration * dt end
+    if lk.isDown("d") or lk.isDown("right") then self.xv = self.xv + self.xv_acceleration * dt end
 
-    if not love.keyboard.isDown("a") and not love.keyboard.isDown("d") and not love.keyboard.isDown("right") and not love.keyboard.isDown("left") then
+    if not lk.isDown("a") and not lk.isDown("d") and not lk.isDown("right") and not lk.isDown("left") then
         self.xv = self.xv * math.pow(self.friction, dt)
     end
 
