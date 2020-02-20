@@ -23,7 +23,7 @@ lg.setDefaultFilter("nearest", "nearest", 1)
 splash = require "libs/splash"
 
 function love.draw() splash:update() end
-splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 5, {}, function()
+splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 2, {}, function()
 
 
 
@@ -42,6 +42,7 @@ screen:setDimensions(push:getDimensions())
 function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end
 scale = 4
 canvasScale = 4
+cursorImg = lg.newImage("assets/imgs/cursor.png")
 love.mouse.setVisible(false)
 
 isPlaying = false
@@ -60,6 +61,16 @@ introSound = la.newSource("assets/sounds/intro.mp3", "stream")
 introSound:isLooping(true)
 introSound:play()
 
+function isClicking(x, y, width, height)
+    local mx, my = lmouse.getPosition()
+    return mx > x and mx < x + width and my > y and my < y + height
+end
+
+buttons = {
+    howToPlay = {x = 60, width = 390, y = 0, height = 0},
+    start = {}
+}
+
 
 function love.draw()
     screen:apply()
@@ -76,6 +87,7 @@ function love.draw()
             tryAgainPopup:draw()
         end
         score:draw()
+    else
     end
 
     if not loadingScreen.shifted then
@@ -83,7 +95,10 @@ function love.draw()
     end
     bonusPopup:draw()
 
+    lg.draw(cursorImg, lmouse.getX() / scale, lmouse.getY() / scale)
     push:finish()
+    love.graphics.print(lmouse.getX())
+    love.graphics.print(lmouse.getY(), 0, 15)
 end
 
 function love.update(dt)
@@ -130,6 +145,7 @@ function love.update(dt)
 
     if not loadingScreen.shifted then
         loadingScreen:update(dt)
+        print(loadingScreen.angle)
     end
 
 
@@ -191,6 +207,8 @@ end
 
 function love.resize(w, h)
   push:resize(w, h)
+  loadingScreen.angle = 0
+  lg.clear()
 end
 
 end)
