@@ -26,10 +26,16 @@ function loadingScreen:update(dt)
     if (not self.flipping) then
         if self.isRotatingCW then
             self.angle = self.angle + dt / 5
-            if self.angle > math.pi / 50 then self.isRotatingCW = false end
+            if self.angle > math.pi / 50 then
+                self.isRotatingCW = false
+                self.angle = math.pi / 50
+            end
         else
             self.angle = self.angle - dt / 5
-            if self.angle < -  math.pi / 50 then self.isRotatingCW = true end
+            if self.angle < -  math.pi / 50 then
+                self.isRotatingCW = true
+                self.angle = - math.pi / 50
+            end
         end
     else
         self.flippedAngle = self.flippedAngle + dt * 4
