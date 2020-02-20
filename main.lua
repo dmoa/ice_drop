@@ -1,12 +1,29 @@
+la = love.audio
+ld = love.data
+le = love.event
+lfile = love.filesystem
+lf = love.font
+lg = love.graphics
+li = love.image
+lj = love.joystick
+lk = love.keyboard
+lm = love.math
+lmouse = love.mouse
+lp = love.physics
+lsound = love.sound
+lsys = love.system
+lth = love.thread
+lt = love.timer
+ltouch = love.touch
+lv = love.video
+lw = love.window
+
 love.graphics.setDefaultFilter("nearest", "nearest", 1)
 
 splash = require "libs/splash"
 
 function love.draw() splash:update() end
 splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 5, {}, function()
-
-
-
 
 
 
