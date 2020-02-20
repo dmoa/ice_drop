@@ -1,37 +1,47 @@
 love.graphics.setDefaultFilter("nearest", "nearest", 1)
 
+splash = require "libs/splash"
 
-local push = require "libs/push"
-local gameWidth, gameHeight = 128, 128
-push:setupScreen(gameWidth, gameHeight, 512, 512, {fullscreen = false, resizable = true})
+function love.draw() splash:update() end
+splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 5, {}, function()
 
-local screen = require "libs/shack"
+
+
+
+
+
+-- love.draw and love.update are defined as game loops after start screen loads
+
+push = require "libs/push"
+gameWidth, gameHeight = 128, 128
+gameWL = 512
+love.window.setMode(gameWL, gameWL, {borderless = false})
+push:setupScreen(gameWidth, gameHeight, gameWL, gameWL, {fullscreen = false, resizable = true, borderless = false})
+
+screen = require "libs/shack"
 screen:setDimensions(push:getDimensions())
 
-function love.load()
 
-    function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end
-    gameWL = 512
-    scale = 4
-    canvasScale = 4
-    love.mouse.setVisible(false)
+function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end
+scale = 4
+canvasScale = 4
+love.mouse.setVisible(false)
 
-    isPlaying = false
+isPlaying = false
 
-    loadingScreen = require("loadingScreen")
-    bonusPopup = require("Bonus")
+loadingScreen = require("loadingScreen")
+bonusPopup = require("Bonus")
 
-    sounds = {
-        bonus = love.audio.newSource("assets/sounds/bonus.wav","static"),
-        death = love.audio.newSource("assets/sounds/death.wav", "static")
-    }
-    anthem = love.audio.newSource("assets/sounds/anthem.ogg", "stream")
-    anthem:isLooping(true)
+sounds = {
+    bonus = love.audio.newSource("assets/sounds/bonus.wav","static"),
+    death = love.audio.newSource("assets/sounds/death.wav", "static")
+}
+anthem = love.audio.newSource("assets/sounds/anthem.ogg", "stream")
+anthem:isLooping(true)
 
-    introSound = love.audio.newSource("assets/sounds/intro.mp3", "stream")
-    introSound:isLooping(true)
-    introSound:play()
-end
+introSound = love.audio.newSource("assets/sounds/intro.mp3", "stream")
+introSound:isLooping(true)
+introSound:play()
 
 
 function love.draw()
@@ -165,3 +175,5 @@ end
 function love.resize(w, h)
   push:resize(w, h)
 end
+
+end)
