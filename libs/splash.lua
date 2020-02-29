@@ -3,7 +3,7 @@
 -- copyright: pls don't steal kthxbye
 
 local Splash = {
-    debug = true,
+    debug = false,
     errorF = "\nSPLASH SCREEN LIBRARY ERROR",
     finished = true,
     timer = 0,
