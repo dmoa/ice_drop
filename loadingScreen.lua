@@ -16,7 +16,7 @@ local loadingScreen = {
 }
 
 function loadingScreen:draw()
-    lg.draw(self.image, (math.floor(gameWL / 2 / scale) * scale) / scale, -115 / scale,
+    lg.draw(self.image, (math.floor(windowL / 2 / scale) * scale) / scale, -115 / scale,
                        self.angle + self.flippedAngle, 1, 1, self.image:getWidth() / 2 + self.offsetX,
                        self.image:getHeight() / 2)
 end
@@ -55,7 +55,7 @@ function loadingScreen:update(dt)
 
     if self.shifting then
         self.offsetX = self.offsetX - 800 * dt
-        if self.offsetX > gameWL * 1.5 then
+        if self.offsetX > windowL * 1.5 then
             self.shifting = false
             self.shifted = true
         end

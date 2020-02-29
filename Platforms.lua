@@ -30,7 +30,7 @@ function Platforms:isPlayerOn(platform)
 end
 
 function Platforms:generatePosition(platform, y)
-    platform.x = lm.random(0, gameWL / 4 - self.image:getWidth())
+    platform.x = lm.random(0, gameHeight - self.image:getWidth())
 end
 
 function Platforms:moveToBottom(platform)
@@ -40,7 +40,7 @@ end
 function Platforms:resetPlatforms()
     for k, platform in ipairs(self.platforms) do
         self:generatePosition(platform)
-        if platform.y < gameWL / 4 and platform.y > 75 then
+        if platform.y < gameHeight and platform.y > 75 then
             platform.x = 20
         end
     end

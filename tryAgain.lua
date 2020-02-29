@@ -11,7 +11,7 @@ function tryAgainPopup:draw()
     lg.draw(tryAgainPopup.image, 0, 0, tryAgainPopup.angle + tryAgainPopup.turnedAngle)
     for i = 1, #tostring(math.floor(score.score)) do
         lg.draw(score.spritesheet, score.quads[tostring(math.floor(score.score)):sub(i, i) + 1],
-        0, 0, tryAgainPopup.angle + tryAgainPopup.turnedAngle, 1, 1, (gameWL / 2 + (i - 1) * 50) / -scale, 380 / -scale)
+        0, 0, tryAgainPopup.angle + tryAgainPopup.turnedAngle, 1, 1, (windowL / 2 + (i - 1) * 50) / -scale, 380 / -scale)
     end
 end
 

@@ -1,6 +1,6 @@
 local Bonus = {
     image = lg.newImage("assets/imgs/bonus.png"),
-    x = gameWL,
+    x = windowL,
     y = 37.5,
     poppingOut = false,
     acceleration = 400,
@@ -16,9 +16,9 @@ function Bonus:update(dt)
         self.x = self.x + self.popoutSpeed * dt
         self.popoutSpeed = self.popoutSpeed + self.acceleration * dt
 
-        if self.x > gameWL / scale then
+        if self.x > gameWidth then
             self.poppingOut = false
-            self.x = gameWL / scale
+            self.x = gameWidth
             self.popoutSpeed = -200
         end
     end
@@ -26,7 +26,7 @@ end
 
 function Bonus:pop()
     self.poppingOut = true
-    self.x = gameWL / scale
+    self.x = gameWidth
 end
 
 return Bonus

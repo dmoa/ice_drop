@@ -73,13 +73,13 @@ function Player:updateMovement(dt)
     self.yv = self.yv + 200 * dt
 
     if self.x < 0 then self.x = 0 end
-    if self.x > gameWL / 4 then self.x = gameWL / 4 end
+    if self.x > gameWidth then self.x = gameWidth end
 end
 
 function Player:updateWithPlatforms()
     self.isFalling = true
     for k, platform in ipairs(platforms.platforms) do
-        if platform.y < gameWL then
+        if platform.y < gameHeight then
             if platforms:isPlayerOn(platform) then
                 if self.oldY + self.image:getHeight() / 2 <= platform.oldY then
                     self.y = platform.y - self.image:getWidth() / 2
@@ -100,9 +100,9 @@ function Player:updateWithPlatforms()
 end
 
 function Player:updateIsDead()
-    if (self.y > (gameWL / scale) or (self.y + self.image:getHeight() / 2 -1 < 0)) and not self.isDead then
+    if (self.y > gameHeight or (self.y + self.image:getHeight() / 2 -1 < 0)) and not self.isDead then
         self.isDead = true
-        self.y = gameWL + 50
+        self.y = gameHeight + 50
         playerDied()
     end
 end
