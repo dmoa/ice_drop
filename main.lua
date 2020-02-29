@@ -19,11 +19,12 @@ lv = love.video
 lw = love.window
 
 lg.setDefaultFilter("nearest", "nearest", 1)
+lg.setLineStyle('rough')
 
 splash = require "libs/splash"
 
 function love.draw() splash:update() end
-splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 2, {}, function()
+splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 0.1, {}, function()
 
 
 
@@ -34,6 +35,7 @@ gameWidth, gameHeight = 128, 128
 windowL = 512
 lw.setMode(windowL, windowL, {borderless = false})
 push:setupScreen(gameWidth, gameHeight, windowL, windowL, {fullscreen = false, resizable = true, borderless = false})
+push:setBorderColor(0.96, 0.96, 0.96)
 
 screen = require "libs/shack"
 screen:setDimensions(push:getDimensions())
@@ -43,7 +45,7 @@ function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end
 scale = 4
 canvasScale = 4
 cursorImg = lg.newImage("assets/imgs/cursor.png")
-love.mouse.setVisible(false)
+-- love.mouse.setVisible(false)
 
 isPlaying = false
 
@@ -83,17 +85,18 @@ function love.draw()
             tryAgainPopup:draw()
         end
         score:draw()
+        bonusPopup:draw()
     else
     end
 
     if not loadingScreen.shifted then
         loadingScreen:draw()
     end
-    bonusPopup:draw()
 
-    buttons:draw()
+    if loadingScreen.flipped then buttons:draw() end
 
-    lg.draw(cursorImg, lmouse.getX() / scale, lmouse.getY() / scale)
+
+    lg.draw(cursorImg, push:toGame(lmouse.getX(), lmouse.getY()))
     push:finish()
 end
 
