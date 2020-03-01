@@ -11,10 +11,10 @@ local startImg = lg.newImage("assets/imgs/start.png")
 
 buttons.buttons = {
     {name = "how to play", image = htpImg,
-     x = gameWidth / 2 - htpImg:getWidth() / 2, y = 50,
+     x = gameWidth / 2 - htpImg:getWidth() / 2, y = 20,
      activate = function()  end},
     {name = "start", image = startImg,
-     x = gameWidth / 2 - startImg:getWidth() / 2, y = 100,
+     x = gameWidth / 2 - startImg:getWidth() / 2, y = 70,
      activate = function() end}
 }
 
