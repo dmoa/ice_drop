@@ -24,7 +24,7 @@ lg.setLineStyle('rough')
 splash = require "libs/splash"
 
 function love.draw() splash:update() end
-splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 0.1, {}, function()
+splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 2, {}, function()
 
 
 
@@ -93,7 +93,7 @@ function love.draw()
         loadingScreen:draw()
     end
 
-    if loadingScreen.flipped then buttons:draw() end
+    if loadingScreen.flipped and not isPlaying then buttons:draw() end
 
 
     lg.draw(cursorImg, push:toGame(lmouse.getX(), lmouse.getY()))
