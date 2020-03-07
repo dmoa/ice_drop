@@ -45,7 +45,7 @@ function round(n) return n % 1 >= 0.5 and math.ceil(n) or math.floor(n) end
 scale = 4
 canvasScale = 4
 cursorImg = lg.newImage("assets/imgs/cursor.png")
--- love.mouse.setVisible(false)
+love.mouse.setVisible(false)
 
 isPlaying = false
 
@@ -93,7 +93,7 @@ function love.draw()
         loadingScreen:draw()
     end
 
-    if loadingScreen.flipped and not isPlaying then buttons:draw() end
+    buttons:draw()
 
 
     lg.draw(cursorImg, push:toGame(lmouse.getX(), lmouse.getY()))
@@ -176,7 +176,7 @@ function playerDied()
     score:updateHighscore()
     anthem:stop()
     sounds.death:play()
-    screen:setShake(15)
+    screen:setShake(25)
 end
 
 function restart()
