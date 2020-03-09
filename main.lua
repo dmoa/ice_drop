@@ -63,7 +63,7 @@ anthem:isLooping(true)
 
 introSound = la.newSource("assets/sounds/intro.mp3", "stream")
 introSound:isLooping(true)
-introSound:play()
+-- introSound:play()
 -- }
 
 
@@ -77,7 +77,9 @@ function love.draw()
 
     if isPlaying then
 
-        lg.draw(bgImage, 0, bgY)
+        lg.draw(bgImage, 0, round(bgY))
+        -- lg.draw(bgImage, 0, bgY2)
+
         player:draw()
         platforms:draw()
         snowman:draw()
@@ -101,7 +103,6 @@ function love.draw()
 end
 
 function love.update(dt)
-
     if isPlaying then
 
         player:update(dt)
@@ -111,7 +112,10 @@ function love.update(dt)
             platforms:update(dt)
             snowman:update(dt)
 
+
             bgY = bgY - scrollSpeed * dt
+
+
             if bgY < -bgImage:getHeight() / 2 then
                 --[[
                 ok basically here is the most annoying bug,
@@ -126,10 +130,16 @@ function love.update(dt)
 
                 To fix this, we sprinkle some code magic to make it work.
                 ]]
-
-                local addedDecimal = platforms.platforms[1].y - math.floor(platforms.platforms[1].y)
-                bgY = addedDecimal
-                platforms:alignPlatforms(addedDecimal)
+                -- local platformY = platforms.platforms[1].y
+                -- local addedDecimal = platformY - math.floor(platformY)
+                -- print(bgY)
+                -- print(addedDecimal)
+                bgY = 0
+                for k, platform in ipairs(platforms.platforms) do
+                    platform.y = math.ceil(platform.y)
+                end
+                snowman.y = math.ceil(snowman.y)
+                -- platforms:alignPlatforms(addedDecimal)
             end
 
             score:update(dt)
@@ -155,6 +165,7 @@ function start()
     scrollSpeed = 40
     bgImage = lg.newImage("assets/imgs/bg.png")
     bgY = 0
+    bgY2 = bgImage:getHeight()
 
     platforms = require("Platforms")
     player = require("Player")
@@ -168,14 +179,14 @@ function start()
     score = require("score")
 
     introSound:stop()
-    anthem:play()
+    -- anthem:play()
 
 end
 
 function playerDied()
     score:updateHighscore()
     anthem:stop()
-    sounds.death:play()
+    -- sounds.death:play()
     screen:setShake(25)
 end
 
@@ -192,7 +203,7 @@ function restart()
     score.score = 0
 
     anthem:seek(love.math.random(anthem:getDuration() * 0.9))
-    anthem:play()
+    -- anthem:play()
 
 end
 
@@ -201,6 +212,7 @@ function love.keypressed(key)
     if key == "space" and not isPlaying then start() end
     if (key == "r" or key == "space") and isPlaying and player.isDead then restart() end
     if key == "return" and lk.isDown("lalt") then push:switchFullscreen() end
+    if key == "p" then debug.debug() end
 end
 
 function love.resize(w, h)

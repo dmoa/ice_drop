@@ -7,12 +7,12 @@ local Platforms = {
 
 function Platforms:draw()
     for k, platform in ipairs(self.platforms) do
-        lg.draw(self.image, platform.x, (platform.y))
+        lg.draw(self.image, platform.x, round(platform.y))
     end
 end
 
 function Platforms:update(dt)
-    for k, platform in ipairs(platforms.platforms) do
+    for k, platform in ipairs(self.platforms) do
         platform.oldY = platform.y
         platform.y = platform.y - scrollSpeed * dt
         if platform.y + self.image:getHeight() < 0 then

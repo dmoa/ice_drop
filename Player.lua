@@ -101,9 +101,9 @@ end
 
 function Player:updateIsDead()
     if (self.y > gameHeight or (self.y + self.image:getHeight() / 2 -1 < 0)) and not self.isDead then
-        self.isDead = true
+        -- self.isDead = true
         self.y = gameHeight + 50
-        playerDied()
+        -- playerDied()
     end
 end
 

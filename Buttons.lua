@@ -25,7 +25,6 @@ local tryAgainButtons = {
 buttons.buttons = {}
 
 function buttons:draw()
-    print(self.buttons)
     for k, button in ipairs(self.buttons) do
         lg.draw(button.image, button.x, button.y)
         if mouseOver(button.x, button.y, button.image:getDimensions()) then
