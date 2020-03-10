@@ -25,8 +25,8 @@ function score:update(dt)
 end
 
 function score:updateHighscore()
-    if math.floor(self.score) > self.highscore then
-        self.highscore = math.floor(self.score)
+    if self.score > self.highscore then
+        self.highscore = self.score
     end
 end
 

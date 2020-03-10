@@ -11,7 +11,8 @@ local loadingScreen = {
     flipped = false,
     shifting = false,
     shifted = false,
-    offsetX = 0
+    offsetX = 0,
+    moving = true
 
 }
 
@@ -23,25 +24,27 @@ end
 
 -- not my cleanest code...
 function loadingScreen:update(dt)
-    if (not self.flipping) then
-        if self.isRotatingCW then
-            self.angle = self.angle + dt / 5
-            if self.angle > math.pi / 50 then
-                self.isRotatingCW = false
-                self.angle = math.pi / 50
+    if self.moving then
+        if (not self.flipping) then
+            if self.isRotatingCW then
+                self.angle = self.angle + dt / 5
+                if self.angle > math.pi / 50 then
+                    self.isRotatingCW = false
+                    self.angle = math.pi / 50
+                end
+            else
+                self.angle = self.angle - dt / 5
+                if self.angle < -  math.pi / 50 then
+                    self.isRotatingCW = true
+                    self.angle = - math.pi / 50
+                end
             end
         else
-            self.angle = self.angle - dt / 5
-            if self.angle < -  math.pi / 50 then
-                self.isRotatingCW = true
-                self.angle = - math.pi / 50
+            self.flippedAngle = self.flippedAngle + dt * 4
+            if self.flippedAngle > math.pi then
+                self.flipping = false
+                self.flipped = true
             end
-        end
-    else
-        self.flippedAngle = self.flippedAngle + dt * 4
-        if self.flippedAngle > math.pi then
-            self.flipping = false
-            self.flipped = true
         end
     end
 

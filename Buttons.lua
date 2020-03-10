@@ -4,14 +4,18 @@ local function mouseOver(x, y, width, height)
 end
 
 local buttons = {}
-
+buttons.buttons = {}
 
 local htpImg = lg.newImage("assets/imgs/howtoplay.png")
 local startImg = lg.newImage("assets/imgs/start.png")
-local openingButtons = {
+openingButtons = {
     {name = "how to play", image = htpImg,
      x = gameWidth / 2 - htpImg:getWidth() / 2, y = 20,
-     activate = function()  end},
+     activate =
+        function()
+            buttons.buttons = howToPlayButtons
+            loadingScreen.moving = false
+        end},
     {name = "start", image = startImg,
      x = gameWidth / 2 - startImg:getWidth() / 2, y = 70,
      activate = function() start() end}
@@ -19,15 +23,29 @@ local openingButtons = {
 
 local escapeImg = lg.newImage("assets/imgs/escape.png")
 local tryAgainButtons = {
-    {name = "escape", image = escapeImg, x = 2, y = 2, activate = function() end}
+    {name = "escape", image = escapeImg, x = 2, y = 2, activate =
+    function()
+        isPlaying = false
+        introSound:play()
+        loadingScreen.shifted = false
+        loadingScreen.offsetX = 0
+        loadingScreen.shifting = false
+    end}
 }
 
-buttons.buttons = {}
+howToPlayButtons = {
+    {name = "back", image = escapeImg, x = 2, y = 2, activate =
+    function()
+        buttons.buttons = openingButtons
+        loadingScreen.moving = true
+    end},
+    {name = "how_to", image = lg.newImage("assets/imgs/tutorial.png"), x = 0, y = 0, activate = function() end, noBold = true}
+}
 
 function buttons:draw()
     for k, button in ipairs(self.buttons) do
         lg.draw(button.image, button.x, button.y)
-        if mouseOver(button.x, button.y, button.image:getDimensions()) then
+        if not button.noBold and mouseOver(button.x, button.y, button.image:getDimensions()) then
             lg.setColor(0, 0, 0)
             lg.rectangle("line", button.x, button.y, button.image:getDimensions())
             lg.setColor(1, 1, 1)
@@ -39,9 +57,10 @@ function buttons:update()
     for k, button in ipairs(self.buttons) do
         if mouseOver(button.x, button.y, button.image:getDimensions()) and lmouse.isDown(1) then
             button.activate()
+            break
         end
     end
-    if loadingScreen.flipped and self.buttons ~= openingButtons then
+    if loadingScreen.flipped and self.buttons ~= openingButtons and self.buttons ~= howToPlayButtons then
         self.buttons = openingButtons
     end
     if isPlaying then

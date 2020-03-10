@@ -63,7 +63,7 @@ anthem:isLooping(true)
 
 introSound = la.newSource("assets/sounds/intro.mp3", "stream")
 introSound:isLooping(true)
--- introSound:play()
+introSound:play()
 -- }
 
 
@@ -97,8 +97,13 @@ function love.draw()
 
     buttons:draw()
 
+    if push:toGame(lmouse.getPosition()) then
+        lmouse.setVisible(false)
+        lg.draw(cursorImg, push:toGame(lmouse.getX(), lmouse.getY()))
+    else
+        lmouse.setVisible(true)
+    end
 
-    lg.draw(cursorImg, push:toGame(lmouse.getX(), lmouse.getY()))
     push:finish()
 end
 
@@ -165,7 +170,6 @@ function start()
     scrollSpeed = 40
     bgImage = lg.newImage("assets/imgs/bg.png")
     bgY = 0
-    bgY2 = bgImage:getHeight()
 
     platforms = require("Platforms")
     player = require("Player")
@@ -179,22 +183,19 @@ function start()
     score = require("score")
 
     introSound:stop()
-    -- anthem:play()
-
+    anthem:play()
 end
 
 function playerDied()
     score:updateHighscore()
     anthem:stop()
-    -- sounds.death:play()
+    sounds.death:play()
     screen:setShake(25)
 end
 
 function restart()
 
     scrollSpeed = 40
-
-    platforms:resetPlatforms()
     player:restart()
     snowman.y = -100
 
@@ -203,13 +204,13 @@ function restart()
     score.score = 0
 
     anthem:seek(love.math.random(anthem:getDuration() * 0.9))
-    -- anthem:play()
+    anthem:play()
 
 end
 
 function love.keypressed(key)
     if key == "escape" then le.quit() end
-    if key == "space" and not isPlaying then start() end
+    -- if key == "space" and not isPlaying and loadingScreen.flipped then start() end
     if (key == "r" or key == "space") and isPlaying and player.isDead then restart() end
     if key == "return" and lk.isDown("lalt") then push:switchFullscreen() end
     if key == "p" then debug.debug() end
