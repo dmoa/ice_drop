@@ -69,6 +69,7 @@ introSound:play()
 
 local buttons = require("Buttons")
 
+local scoreFile = require("scoreFile")
 
 function love.draw()
     screen:apply()
@@ -191,6 +192,7 @@ function playerDied()
     anthem:stop()
     sounds.death:play()
     screen:setShake(25)
+    scoreFile:updateFile()
 end
 
 function restart()

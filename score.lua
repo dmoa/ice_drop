@@ -1,12 +1,13 @@
 local score = {
-
     spritesheet = lg.newImage("assets/imgs/numbers.png"),
     quads = {},
     numberLength = 16,
     score = 0,
-    highscore = 0
-
+    highscore = 0,
+    scoreFile = require("scoreFile")
 }
+
+score.highscore = score.scoreFile:getHighscore()
 
 for i = 0, 9 do
     table.insert(score.quads, lg.newQuad(i * score.numberLength, 0,
