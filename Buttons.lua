@@ -38,6 +38,7 @@ howToPlayButtons = {
     function()
         buttons.buttons = openingButtons
         loadingScreen.moving = true
+        score.score = 0
     end},
     {name = "how_to", image = lg.newImage("assets/imgs/tutorial.png"), x = 0, y = 0, activate = function() end, noBold = true}
 }
