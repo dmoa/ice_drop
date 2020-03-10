@@ -191,7 +191,7 @@ function playerDied()
     score:updateHighscore()
     anthem:stop()
     sounds.death:play()
-    screen:setShake(25)
+    screen:setShake(50)
     scoreFile:updateFile()
 end
 
@@ -199,6 +199,7 @@ function restart()
 
     scrollSpeed = 40
     player:restart()
+    platforms:resetPlatforms()
     snowman.y = -100
 
     tryAgainPopup.reversing = true
@@ -223,5 +224,7 @@ function love.resize(w, h)
   loadingScreen.angle = 0
   lg.clear()
 end
+
+push:switchFullscreen()
 
 end)
