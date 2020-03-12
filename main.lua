@@ -59,10 +59,10 @@ sounds = {
     death = la.newSource("assets/sounds/death.wav", "static")
 }
 anthem = la.newSource("assets/sounds/anthem.ogg", "stream")
-anthem:isLooping(true)
+anthem:setLooping(true)
 
 introSound = la.newSource("assets/sounds/intro.mp3", "stream")
-introSound:isLooping(true)
+introSound:setLooping(true)
 introSound:play()
 -- }
 
@@ -217,6 +217,7 @@ function love.keypressed(key)
     if (key == "r" or key == "space") and isPlaying and player.isDead then restart() end
     if key == "return" and lk.isDown("lalt") then push:switchFullscreen() end
     if key == "p" then debug.debug() end
+    if key == "g" then love.graphics.captureScreenshot("screenshot.png") end
 end
 
 function love.resize(w, h)
