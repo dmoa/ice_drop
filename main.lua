@@ -22,9 +22,10 @@ lg.setDefaultFilter("nearest", "nearest", 1)
 lg.setLineStyle('rough')
 
 splash = require "libs/splash"
+input  = require "libs/input"
 
 function love.draw() splash:update() end
-splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 2, {}, function()
+splash:startSplashScreen("assets/imgs/start_screen.png", "", 1500, 500, 0, {}, function()
 
 
 
@@ -155,6 +156,11 @@ function love.update(dt)
             tryAgainPopup:update(dt)
         end
         bonusPopup:update(dt)
+
+
+        if input.down() and isPlaying and player.isDead then
+            restart()
+        end
 
     end
 

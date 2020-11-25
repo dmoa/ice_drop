@@ -17,7 +17,9 @@ local Player = {
 
     direction = "left",
     isDead = false,
-    isFalling = false
+    isFalling = false,
+
+    j = lj.getJoysticks()[1]
 }
 
 
@@ -42,9 +44,11 @@ function Player:update(dt)
     end
 end
 
+
+
 function Player:updateRotation(dt)
-    if lk.isDown("d") or lk.isDown("right") then self.direction = "right" end
-    if lk.isDown("a") or lk.isDown("left") then self.direction = "left" end
+    if input.left() then self.direction = "left" end
+    if input.right() then self.direction = "right" end
 
     if self.isFalling then
         if self.direction == "right" then
@@ -56,10 +60,10 @@ function Player:updateRotation(dt)
 end
 
 function Player:updateMovement(dt)
-    if lk.isDown("a") or lk.isDown("left") then self.xv = self.xv - self.xv_acceleration * dt end
-    if lk.isDown("d") or lk.isDown("right") then self.xv = self.xv + self.xv_acceleration * dt end
+    if input.left() then self.xv = self.xv - self.xv_acceleration * dt end
+    if input.right() then self.xv = self.xv + self.xv_acceleration * dt end
 
-    if not lk.isDown("a") and not lk.isDown("d") and not lk.isDown("right") and not lk.isDown("left") then
+    if not input.left() and not input.right() then
         self.xv = self.xv * math.pow(self.friction, dt)
     end
 

@@ -7,7 +7,7 @@ local input = {}
 joystick = lj.getJoysticks()[1]
 -- joystick:setVibration(1, 1, 0.5)
 
-input.keyIsDown = {
+input = {
     right = function()
         return (lk.isDown("right") or lk.isDown("d") or (joystick and joystick:getAxis(1) > 0.5))
     end,
